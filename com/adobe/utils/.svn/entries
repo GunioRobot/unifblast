@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="603"
+   name=""
+   committed-date="2006-06-20T20:43:50.528158Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/utils"
+   last-author="mchamber@macromedia.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   prop-time="2006-07-03T21:43:47.941484Z"
+   revision="603"/>
+<entry
+   committed-rev="556"
+   name="XMLUtil.as"
+   text-time="2006-07-03T21:43:47.951499Z"
+   committed-date="2006-04-14T16:32:44.557416Z"
+   checksum="612d0f5211fae433afa5e1917cfdf3a4"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.180390Z"/>
+<entry
+   name="tests"
+   kind="dir"/>
+<entry
+   committed-rev="556"
+   name="StringUtil.as"
+   text-time="2006-07-03T21:43:47.981542Z"
+   committed-date="2006-04-14T16:32:44.557416Z"
+   checksum="4c7801f7d0d108abd8ec5a6158cf75b5"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.861369Z"/>
+<entry
+   committed-rev="603"
+   name="IntUtil.as"
+   text-time="2006-07-03T21:43:48.011585Z"
+   committed-date="2006-06-20T20:43:50.528158Z"
+   checksum="a8f573a70eb2b7041beb278cdb3ba800"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.891412Z"/>
+<entry
+   committed-rev="604"
+   name="DateUtil.as"
+   text-time="2006-07-11T20:27:47.647640Z"
+   committed-date="2006-07-11T21:22:47.429449Z"
+   checksum="ac481588fd1c4e59c5c2277ba82d622f"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.911441Z"
+   revision="604"/>
+<entry
+   committed-rev="556"
+   name="ArrayUtil.as"
+   text-time="2006-07-03T21:43:48.031614Z"
+   committed-date="2006-04-14T16:32:44.557416Z"
+   checksum="2a9d54a1538ba547aae53a37f277e82b"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.931470Z"/>
+<entry
+   committed-rev="556"
+   name="NumberFormatter.as"
+   text-time="2006-07-03T21:43:48.041628Z"
+   committed-date="2006-04-14T16:32:44.557416Z"
+   checksum="741ff19ed2a055715a7973430c41a05d"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:47.931470Z"/>
+</wc-entries>

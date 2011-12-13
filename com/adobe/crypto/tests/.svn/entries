@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="596"
+   name=""
+   committed-date="2006-05-16T22:06:03.507593Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/crypto/tests"
+   last-author="briggs@adobe.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   revision="603"/>
+<entry
+   committed-rev="596"
+   name="WSSEUsernameTokenTest.as"
+   text-time="2006-07-03T21:43:46.849915Z"
+   committed-date="2006-05-16T22:06:03.507593Z"
+   checksum="6ff9444745a1cbff0fa18a44cea06654"
+   last-author="briggs@adobe.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:46.799843Z"/>
+<entry
+   committed-rev="540"
+   name="MD5Test.as"
+   text-time="2006-07-03T21:43:46.859929Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="2311b7a9717a0f292931d0631f08cb1c"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:46.809857Z"/>
+<entry
+   committed-rev="596"
+   name="SHA1Test.as"
+   text-time="2006-07-03T21:43:46.879958Z"
+   committed-date="2006-05-16T22:06:03.507593Z"
+   checksum="890cb42d2cc7ce37e9f74c7a3de1c069"
+   last-author="briggs@adobe.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:46.839900Z"/>
+</wc-entries>

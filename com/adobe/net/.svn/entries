@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="596"
+   name=""
+   committed-date="2006-05-16T22:06:03.507593Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/net"
+   last-author="briggs@adobe.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   revision="603"/>
+<entry
+   committed-rev="540"
+   name="DynamicURLLoader.as"
+   text-time="2006-07-03T21:43:48.792708Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="84965af826bb93cb4570fcf5d70f49d8"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:48.271960Z"/>
+<entry
+   committed-rev="596"
+   name="URI.as"
+   text-time="2006-07-03T21:43:48.812737Z"
+   committed-date="2006-05-16T22:06:03.507593Z"
+   checksum="b7a52dde5d83661eb273313d29868307"
+   last-author="briggs@adobe.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:48.322032Z"/>
+<entry
+   name="tests"
+   kind="dir"/>
+<entry
+   committed-rev="596"
+   name="URIEncodingBitmap.as"
+   text-time="2006-07-03T21:43:48.842780Z"
+   committed-date="2006-05-16T22:06:03.507593Z"
+   checksum="3f03c207d68e350d368da7b3356a4de7"
+   last-author="briggs@adobe.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:48.762665Z"/>
+<entry
+   committed-rev="596"
+   name="IURIResolver.as"
+   text-time="2006-07-03T21:43:48.862809Z"
+   committed-date="2006-05-16T22:06:03.507593Z"
+   checksum="46ff8d51a157f5afec835b3e94650967"
+   last-author="briggs@adobe.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:48.782694Z"/>
+</wc-entries>

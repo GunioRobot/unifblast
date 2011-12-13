@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="540"
+   name=""
+   committed-date="2006-04-13T06:10:33.693119Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/webapis"
+   last-author="mchamber@macromedia.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   prop-time="2006-07-03T21:43:49.003011Z"
+   revision="603"/>
+<entry
+   name="events"
+   kind="dir"/>
+<entry
+   committed-rev="540"
+   name="URLLoaderBase.as"
+   text-time="2006-07-03T21:43:49.013025Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="2cf430f3ad0b2fe0fea4aaf83f61de15"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:48.992996Z"/>
+<entry
+   committed-rev="540"
+   name="ServiceBase.as"
+   text-time="2006-07-03T21:43:49.053083Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="2ec525f49aadd574909ca77e6fd0d6d1"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.003011Z"/>
+</wc-entries>

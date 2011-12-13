@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="540"
+   name=""
+   committed-date="2006-04-13T06:10:33.693119Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/errors"
+   last-author="mchamber@macromedia.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   prop-time="2006-07-03T21:43:49.133198Z"
+   revision="603"/>
+<entry
+   committed-rev="540"
+   name="IllegalStateError.as"
+   text-time="2006-07-03T21:43:49.133198Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="b35bd912dcea49eb6bdb004980b69f8a"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.123184Z"/>
+</wc-entries>
