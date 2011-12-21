@@ -28,7 +28,7 @@ import Box2D.Common.*;
 
 public class b2Pair
 {
-	
+
 
 	public function SetBuffered() : void	{ status |= e_pairBuffered; }
 	public function ClearBuffered() : void	{ status &= ~e_pairBuffered; }
@@ -37,7 +37,7 @@ public class b2Pair
 	public function SetRemoved() : void		{ status |= e_pairRemoved; }
 	public function ClearRemoved() : void	{ status &= ~e_pairRemoved; }
 	public function IsRemoved():Boolean		{ return (status & e_pairRemoved) == e_pairRemoved; }
-	
+
 	public function SetFinal() : void		{ status |= e_pairFinal; }
 	public function IsFinal():Boolean		{ return (status & e_pairFinal) == e_pairFinal; }
 
@@ -46,13 +46,13 @@ public class b2Pair
 	public var proxyId2:uint;
 	public var next:uint;
 	public var status:uint;
-	
+
 	// STATIC
 	static public var b2_nullPair:uint = b2Settings.USHRT_MAX;
 	static public var b2_nullProxy:uint = b2Settings.USHRT_MAX;
 	static public var b2_tableCapacity:int = b2Settings.b2_maxPairs;	// must be a power of two
 	static public var b2_tableMask:int = b2_tableCapacity - 1;
-	
+
 	// enum
 	static public var e_pairBuffered:uint = 0x0001;
 	static public var e_pairRemoved:uint = 0x0002;

@@ -10,25 +10,25 @@
 	 * ...
 	 * @author Simon
 	 */
-	
+
 	 //IMPORTANT: VVVVVVVVVVVVVVV
-	 //To use this, simply create an instance("MouseEvent" is 
+	 //To use this, simply create an instance("MouseEvent" is
 	 //not working properly for me and if you can fix this .. thx).
 	 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	 
+
 	public class PowerMeter extends MovieClip
 	{
 		//Change these constants at your leasure
 		/*
-		 * 
+		 *
 		 * The maximum and minimum values should be
-		 * 
+		 *
 		 */
 		private const _maximum:Number = 1000;
 		private const _minimum:Number = 200;
 		private const _rateOfChange:Number = 50;
 		private const barHeight:Number = 200;
-		
+
 		//Don't touch these
 		private var _readyToLaunch:Boolean = false;
 		private var _mouseUp:Boolean = false;
@@ -40,7 +40,7 @@
 		private var addition:Number = (barHeight / ((_maximum - _minimum) / _rateOfChange)) - (barHeight / _rateOfChange);
 		public function PowerMeter()
 		{
-			
+
 		}
 		public function PowerMeterStart(bar:RedBar, cannon:Cannon):void
 		{
@@ -49,13 +49,13 @@
 			_cannon = cannon;
 			Main.stage.addEventListener(MouseEvent.MOUSE_DOWN, StartCannon);
 		}
-		
-		private function StartCannon(e:Event):void 
+
+		private function StartCannon(e:Event):void
 		{
 			addEventListener(Event.ENTER_FRAME, LoopCannon);
 		}
-		
-		private function StartPowerMeter(e:Event):void 
+
+		private function StartPowerMeter(e:Event):void
 		{
 			removeEventListener(Event.ENTER_FRAME, EndLoop);
 			removeEventListener(Event.ENTER_FRAME, LoopCannon);
@@ -64,7 +64,7 @@
 			_goingUp = true;
 			addEventListener(Event.ENTER_FRAME, LoopPower);
 		}
-		
+
 		private function LoopPower(e:Event) {
 			if (_readyToLaunch==false)
 			{
@@ -104,10 +104,10 @@
 			}
 			}
 		}
-		
+
 		private function LoopCannon(e:Event)
 		{
-			
+
 			Main.stage.addEventListener(MouseEvent.MOUSE_UP, EndLoop);
 			if (_mouseUp)
 			{
@@ -134,11 +134,11 @@
 					}
 			}
 		}
-		private function EndLoop(e:MouseEvent):void 
+		private function EndLoop(e:MouseEvent):void
 		{
 			_mouseUp = true;
 		}
-		private function EndLoopPower(e:MouseEvent):void 
+		private function EndLoopPower(e:MouseEvent):void
 		{
 			_mouseUp = true;
 			_readyToLaunch = true;
@@ -147,12 +147,12 @@
 		{
 			return _readyToLaunch;
 		}
-		public function get currentPower():Number 
+		public function get currentPower():Number
 		{
 			return _currentPower;
 		}
-		
-		public function get cannonAngle():Number 
+
+		public function get cannonAngle():Number
 		{
 			return _cannonAngle;
 		}

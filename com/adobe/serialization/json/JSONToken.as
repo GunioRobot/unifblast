@@ -1,24 +1,24 @@
 /*
 Adobe Systems Incorporated(r) Source Code License Agreement
 Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
-	
+
 Please read this Source Code License Agreement carefully before using
 the source code.
-	
+
 Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
 no-charge, royalty-free, irrevocable copyright license, to reproduce,
 prepare derivative works of, publicly display, publicly perform, and
 distribute this source code and such derivative works in source or
 object code form without any attribution requirements.
-	
+
 The name "Adobe Systems Incorporated" must not be used to endorse or promote products
 derived from the source code without prior written permission.
-	
+
 You agree to indemnify, hold harmless and defend Adobe Systems Incorporated from and
 against any loss, damage, claims or lawsuits, including attorney's
 fees that arise or result from your use or distribution of the source
 code.
-	
+
 THIS SOURCE CODE IS PROVIDED "AS IS" AND "WITH ALL FAULTS", WITHOUT
 ANY TECHNICAL SUPPORT OR ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING,
 BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -36,10 +36,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.adobe.serialization.json {
 
 	public class JSONToken {
-	
+
 		private var _type:int;
 		private var _value:Object;
-		
+
 		/**
 		 * Creates a new JSONToken with a specific token type and value.
 		 *
@@ -53,7 +53,7 @@ package com.adobe.serialization.json {
 			_type = type;
 			_value = value;
 		}
-		
+
 		/**
 		 * Returns the type of the token.
 		 *
@@ -63,9 +63,9 @@ package com.adobe.serialization.json {
 		 * @tiptext
 		 */
 		public function get type():int {
-			return _type;	
+			return _type;
 		}
-		
+
 		/**
 		 * Sets the type of the token.
 		 *
@@ -75,9 +75,9 @@ package com.adobe.serialization.json {
 		 * @tiptext
 		 */
 		public function set type( value:int ):void {
-			_type = value;	
+			_type = value;
 		}
-		
+
 		/**
 		 * Gets the value of the token
 		 *
@@ -87,9 +87,9 @@ package com.adobe.serialization.json {
 		 * @tiptext
 		 */
 		public function get value():Object {
-			return _value;	
+			return _value;
 		}
-		
+
 		/**
 		 * Sets the value of the token
 		 *
@@ -99,9 +99,9 @@ package com.adobe.serialization.json {
 		 * @tiptext
 		 */
 		public function set value ( v:Object ):void {
-			_value = v;	
+			_value = v;
 		}
 
 	}
-	
+
 }

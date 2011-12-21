@@ -6,7 +6,7 @@ package com.adobe.images
 {
 	public class PNGEncoder
 	{
-	
+
 	    public static function encode(img:BitmapData):ByteArray {
 	        // Create output byte array
 	        var png:ByteArray = new ByteArray();
@@ -48,11 +48,11 @@ package com.adobe.images
 	        // return PNG
 	        return png;
 	    }
-	
+
 	    private static var crcTable:Array;
 	    private static var crcTableComputed:Boolean = false;
-	
-	    private static function writeChunk(png:ByteArray, 
+
+	    private static function writeChunk(png:ByteArray,
 	            type:uint, data:ByteArray) {
 	        if (!crcTableComputed) {
 	            crcTableComputed = true;
@@ -61,7 +61,7 @@ package com.adobe.images
 	                var c:uint = n;
 	                for (var k:uint = 0; k < 8; k++) {
 	                    if (c & 1) {
-	                        c = uint(uint(0xedb88320) ^ 
+	                        c = uint(uint(0xedb88320) ^
 	                            uint(c >>> 1));
 	                    } else {
 	                        c = uint(c >>> 1);
@@ -85,7 +85,7 @@ package com.adobe.images
 	        var c:uint = 0xffffffff;
 	        for (var i:int = 0; i < (e-p); i++) {
 	            c = uint(crcTable[
-	                (c ^ png.readUnsignedByte()) & 
+	                (c ^ png.readUnsignedByte()) &
 	                uint(0xff)] ^ uint(c >>> 8));
 	        }
 	        c = uint(c^uint(0xffffffff));

@@ -40,7 +40,7 @@ public class b2DestructionListener
 	/// Called when any shape is about to be destroyed due
 	/// to the destruction of its parent body.
 	public virtual function SayGoodbyeShape(shape:b2Shape) : void{};
-	
+
 };
 
 }

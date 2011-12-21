@@ -36,9 +36,9 @@ public class b2CircleContact extends b2Contact
 
 	public function b2CircleContact(shape1:b2Shape, shape2:b2Shape){
 		super(shape1, shape2);
-		
+
 		m_manifold = m_manifolds[0];
-		
+
 		//b2Settings.b2Assert(m_shape1.m_type == b2Shape.e_circleShape);
 		//b2Settings.b2Assert(m_shape2.m_type == b2Shape.e_circleShape);
 		m_manifold.pointCount = 0;
@@ -47,39 +47,39 @@ public class b2CircleContact extends b2Contact
 		point.tangentImpulse = 0.0;
 	}
 	//~b2CircleContact() {}
-	
+
 	static private const s_evalCP:b2ContactPoint = new b2ContactPoint();
 	public override function Evaluate(listener:b2ContactListener) : void{
 		var v1:b2Vec2;
 		var v2:b2Vec2;
 		var mp0:b2ManifoldPoint;
-		
+
 		var b1:b2Body = m_shape1.m_body;
 		var b2:b2Body = m_shape2.m_body;
-		
+
 		//b2Manifold m0;
 		//memcpy(&m0, &m_manifold, sizeof(b2Manifold));
 		// TODO: make sure this is completely necessary
 		m0.Set(m_manifold);
-		
+
 		b2Collision.b2CollideCircles(m_manifold, m_shape1 as b2CircleShape, b1.m_xf, m_shape2 as b2CircleShape, b2.m_xf);
-		
+
 		var cp:b2ContactPoint = s_evalCP;
 		cp.shape1 = m_shape1;
 		cp.shape2 = m_shape2;
 		cp.friction = m_friction;
 		cp.restitution = m_restitution;
-		
+
 		if (m_manifold.pointCount > 0)
 		{
 			m_manifoldCount = 1;
 			var mp:b2ManifoldPoint = m_manifold.points[ 0 ];
-			
+
 			if (m0.pointCount == 0)
 			{
 				mp.normalImpulse = 0.0;
 				mp.tangentImpulse = 0.0;
-	
+
 				if (listener)
 				{
 					cp.position = b1.GetWorldPoint(mp.localPoint1);
@@ -96,7 +96,7 @@ public class b2CircleContact extends b2Contact
 				mp0 = m0.points[ 0 ];
 				mp.normalImpulse = mp0.normalImpulse;
 				mp.tangentImpulse = mp0.tangentImpulse;
-				
+
 				if (listener)
 				{
 					cp.position = b1.GetWorldPoint(mp.localPoint1);
@@ -127,7 +127,7 @@ public class b2CircleContact extends b2Contact
 			}
 		}
 	}
-	
+
 	public override function GetManifolds():Array
 	{
 		return m_manifolds;

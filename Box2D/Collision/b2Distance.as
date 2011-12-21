@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+
 import Box2D.Common.Math.*;
 import Box2D.Common.*;
 import Box2D.Collision.Shapes.*;
@@ -39,7 +39,7 @@ static public function ProcessTwo(x1:b2Vec2, x2:b2Vec2, p1s:Array, p2s:Array, po
 	var p1s_1:b2Vec2 = p1s[1];
 	var p2s_0:b2Vec2 = p2s[0];
 	var p2s_1:b2Vec2 = p2s[1];
-	
+
 	// If in point[1] region
 	//b2Vec2 r = -points[1];
 	var rX:Number = -points_1.x;
@@ -51,7 +51,7 @@ static public function ProcessTwo(x1:b2Vec2, x2:b2Vec2, p1s:Array, p2s:Array, po
 	var length:Number = Math.sqrt(dX*dX + dY*dY);
 	dX /= length;
 	dY /= length;
-	
+
 	//float32 lambda = b2Dot(r, d);
 	var lambda:Number = rX * dX + rY * dY;
 	if (lambda <= 0.0 || length < Number.MIN_VALUE)
@@ -96,7 +96,7 @@ static public function ProcessThree(x1:b2Vec2, x2:b2Vec2, p1s:Array, p2s:Array, 
 	var p2s_0:b2Vec2 = p2s[0];
 	var p2s_1:b2Vec2 = p2s[1];
 	var p2s_2:b2Vec2 = p2s[2];
-	
+
 	//b2Vec2 a = points[0];
 	var aX:Number = points_0.x;
 	var aY:Number = points_0.y;
@@ -152,17 +152,17 @@ static public function ProcessThree(x1:b2Vec2, x2:b2Vec2, p1s:Array, p2s:Array, 
 
 	// Should not be in edge ab region.
 	//float32 vc = n * b2Cross(a, b);
-	var vc:Number = n * (aX * bY - aY * bX); 
+	var vc:Number = n * (aX * bY - aY * bX);
 	//b2Settings.b2Assert(vc > 0.0 || sn > 0.0 || sd > 0.0);
 	var lambda:Number;
-	
+
 	// In edge bc region?
 	//float32 va = n * b2Cross(b, c);
-	var va:Number = n * (bX * cY - bY * cX); 
+	var va:Number = n * (bX * cY - bY * cX);
 	if (va <= 0.0 && un >= 0.0 && ud >= 0.0 && (un+ud) > 0.0)
 	{
 		//b2Settings.b2Assert(un + ud > 0.0);
-		
+
 		//float32 lambda = un / (un + ud);
 		lambda = un / (un + ud);
 		//*x1 = p1s[1] + lambda * (p1s[2] - p1s[1]);
@@ -186,7 +186,7 @@ static public function ProcessThree(x1:b2Vec2, x2:b2Vec2, p1s:Array, p2s:Array, 
 	if (vb <= 0.0 && tn >= 0.0 && td >= 0.0 && (tn+td) > 0.0)
 	{
 		//b2Settings.b2Assert(tn + td > 0.0);
-		
+
 		//float32 lambda = tn / (tn + td);
 		lambda = tn / (tn + td);
 		//*x1 = p1s[0] + lambda * (p1s[2] - p1s[0]);
@@ -236,7 +236,7 @@ static public function InPoints(w:b2Vec2, points:Array, pointCount:int):Boolean
 		//b2Vec2 m = b2Max(b2Abs(w), b2Abs(points[i]));
 		var mX:Number = Math.max(Math.abs(w.x), Math.abs(points_i.x));
 		var mY:Number = Math.max(Math.abs(w.y), Math.abs(points_i.y));
-		
+
 		if (dX < k_tolerance * (mX + 1.0) &&
 			dY < k_tolerance * (mY + 1.0)){
 			return true;
@@ -246,18 +246,18 @@ static public function InPoints(w:b2Vec2, points:Array, pointCount:int):Boolean
 	return false;
 }
 
-// 
+//
 static private var s_p1s:Array = [new b2Vec2(), new b2Vec2(), new b2Vec2()];
 static private var s_p2s:Array = [new b2Vec2(), new b2Vec2(), new b2Vec2()];
 static private var s_points:Array = [new b2Vec2(), new b2Vec2(), new b2Vec2()];
 //
 
-static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2, 
-										shape1:*, xf1:b2XForm, 
+static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
+										shape1:*, xf1:b2XForm,
 										shape2:*, xf2:b2XForm):Number
 {
 	var tVec: b2Vec2;
-	
+
 	//b2Vec2 p1s[3], p2s[3];
 	var p1s:Array = s_p1s;
 	var p2s:Array = s_p2s;
@@ -302,7 +302,7 @@ static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
 			g_GJK_Iterations = iter;
 			return Math.sqrt(vSqr);
 		}
-		
+
 		switch (pointCount)
 		{
 		case 0:
@@ -322,7 +322,7 @@ static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
 			x2.SetV(p2s[0]);
 			++pointCount;
 			break;
-			
+
 		case 1:
 			//p1s[1] = w1;
 			tVec = p1s[1];
@@ -336,7 +336,7 @@ static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
 			tVec.y = wY;
 			pointCount = ProcessTwo(x1, x2, p1s, p2s, points);
 			break;
-			
+
 		case 2:
 			//p1s[2] = w1;
 			tVec = p1s[2];
@@ -351,14 +351,14 @@ static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
 			pointCount = ProcessThree(x1, x2, p1s, p2s, points);
 			break;
 		}
-		
+
 		// If we have three points, then the origin is in the corresponding triangle.
 		if (pointCount == 3)
 		{
 			g_GJK_Iterations = iter;
 			return 0.0;
 		}
-		
+
 		//float32 maxSqr = -FLT_MAX;
 		var maxSqr:Number = -Number.MAX_VALUE;
 		for (var i:int = 0; i < pointCount; ++i)
@@ -367,7 +367,7 @@ static public function DistanceGeneric(x1:b2Vec2, x2:b2Vec2,
 			tVec = points[i];
 			maxSqr = b2Math.b2Max(maxSqr, (tVec.x*tVec.x + tVec.y*tVec.y));
 		}
-		
+
 		if (pointCount == 3 || vSqr <= 100.0 * Number.MIN_VALUE * maxSqr)
 		{
 			g_GJK_Iterations = iter;
@@ -460,10 +460,10 @@ static public function DistancePC(
 	polygon:b2PolygonShape, xf1:b2XForm,
 	circle:b2CircleShape, xf2:b2XForm) : Number
 {
-	
+
 	var tMat:b2Mat22;
 	var tVec:b2Vec2;
-	
+
 	var point:b2Point = gPoint;
 	//point.p = b2Mul(xf2, circle->m_localPosition);
 	tVec = circle.m_localPosition;
@@ -497,7 +497,7 @@ static public function DistancePC(
 		x2.x = x1.x;
 		x2.y = x1.y;
 	}
-	
+
 	return distance;
 }
 
@@ -516,7 +516,7 @@ static public function Distance(x1:b2Vec2, x2:b2Vec2,
 		//return DistanceCC(x1, x2, (b2CircleShape*)shape1, xf1, (b2CircleShape*)shape2, xf2);
 		return DistanceCC(x1, x2, shape1 as b2CircleShape, xf1, shape2 as b2CircleShape, xf2);
 	}
-	
+
 	if (type1 == b2Shape.e_polygonShape && type2 == b2Shape.e_circleShape)
 	{
 		//return DistancePC(x1, x2, (b2PolygonShape*)shape1, xf1, (b2CircleShape*)shape2, xf2);
@@ -532,7 +532,7 @@ static public function Distance(x1:b2Vec2, x2:b2Vec2,
 	{
 		return DistanceGeneric(x1, x2, shape1 as b2PolygonShape, xf1, shape2 as b2PolygonShape, xf2);
 	}
-	
+
 	return 0.0;
 }
 

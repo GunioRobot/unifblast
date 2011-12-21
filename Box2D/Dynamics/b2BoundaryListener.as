@@ -34,7 +34,7 @@ public class b2BoundaryListener
 	/// This is called for each body that leaves the world boundary.
 	/// @warning you can't modify the world inside this callback.
 	public virtual function Violation(body:b2Body) : void{};
-	
+
 };
 
 }

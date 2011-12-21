@@ -1,4 +1,4 @@
-package  
+package
 {
 	import Box2D.Collision.b2ContactPoint;
 	import Box2D.Dynamics.b2ContactListener;
@@ -8,12 +8,12 @@ package
 	 */
 	public class CannonBlastContactListener extends b2ContactListener
 	{
-		
-		public function CannonBlastContactListener() 
+
+		public function CannonBlastContactListener()
 		{
-			
+
 		}
-		
+
 		override public function Add(point:b2ContactPoint):void //***Determine what has collided and output it and flag it up to MineActor it has been hit***
 		{
 			trace("Pow!");
@@ -29,7 +29,7 @@ package
 			}
 			super.Add(point);
 		}
-		
+
 	}
 
 }

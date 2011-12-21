@@ -54,19 +54,19 @@ public class b2CircleShape extends b2Shape
 		var tMat:b2Mat22 = transform.R;
 		var positionX:Number = transform.position.x + (tMat.col1.x * m_localPosition.x + tMat.col2.x * m_localPosition.y);
 		var positionY:Number = transform.position.y + (tMat.col1.y * m_localPosition.x + tMat.col2.y * m_localPosition.y);
-		
+
 		//b2Vec2 s = segment.p1 - position;
 		var sX:Number = segment.p1.x - positionX;
 		var sY:Number = segment.p1.y - positionY;
 		//float32 b = b2Dot(s, s) - m_radius * m_radius;
 		var b:Number = (sX*sX + sY*sY) - m_radius * m_radius;
-		
+
 		// Does the segment start inside the circle?
 		if (b < 0.0)
 		{
 			return false;
 		}
-		
+
 		// Solve quadratic equation.
 		//b2Vec2 r = segment.p2 - segment.p1;
 		var rX:Number = segment.p2.x - segment.p1.x;
@@ -76,16 +76,16 @@ public class b2CircleShape extends b2Shape
 		//float32 rr = b2Dot(r, r);
 		var rr:Number = (rX*rX + rY*rY);
 		var sigma:Number = c * c - rr * b;
-		
+
 		// Check for negative discriminant and short segment.
 		if (sigma < 0.0 || rr < Number.MIN_VALUE)
 		{
 			return false;
 		}
-		
+
 		// Find the point of intersection of the line with the circle.
 		var a:Number = -(c + Math.sqrt(sigma));
-		
+
 		// Is the intersection point on the segment?
 		if (0.0 <= a && a <= maxLambda * rr)
 		{
@@ -98,7 +98,7 @@ public class b2CircleShape extends b2Shape
 			normal.Normalize();
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -126,10 +126,10 @@ public class b2CircleShape extends b2Shape
 		tMat = transform2.R;
 		var p2X:Number = transform2.position.x + (tMat.col1.x * m_localPosition.x + tMat.col2.x * m_localPosition.y);
 		var p2Y:Number = transform2.position.y + (tMat.col1.y * m_localPosition.x + tMat.col2.y * m_localPosition.y);
-		
+
 		//b2Vec2 lower = b2Min(p1, p2);
 		//b2Vec2 upper = b2Max(p1, p2);
-		
+
 		//aabb->lowerBound.Set(lower.x - m_radius, lower.y - m_radius);
 		aabb.lowerBound.Set((p1X < p2X ? p1X : p2X) - m_radius, (p1Y < p2Y ? p1Y : p2Y) - m_radius);
 		//aabb->upperBound.Set(upper.x + m_radius, upper.y + m_radius);
@@ -140,7 +140,7 @@ public class b2CircleShape extends b2Shape
 	public override function ComputeMass(massData:b2MassData) : void{
 		massData.mass = m_density * b2Settings.b2_pi * m_radius * m_radius;
 		massData.center.SetV(m_localPosition);
-		
+
 		// inertia about the local origin
 		//massData.I = massData.mass * (0.5 * m_radius * m_radius + b2Dot(m_localPosition, m_localPosition));
 		massData.I = massData.mass * (0.5 * m_radius * m_radius + (m_localPosition.x*m_localPosition.x + m_localPosition.y*m_localPosition.y));
@@ -160,14 +160,14 @@ public class b2CircleShape extends b2Shape
 
 	public function b2CircleShape(def:b2ShapeDef){
 		super(def);
-		
+
 		//b2Settings.b2Assert(def.type == e_circleShape);
 		var circleDef:b2CircleDef = def as b2CircleDef;
-		
+
 		m_type = e_circleShape;
 		m_localPosition.SetV(circleDef.localPosition);
 		m_radius = circleDef.radius;
-		
+
 	}
 
 	public override function UpdateSweepRadius(center:b2Vec2) : void{
@@ -184,7 +184,7 @@ public class b2CircleShape extends b2Shape
 	// Local position in parent body
 	public var m_localPosition:b2Vec2 = new b2Vec2();
 	public var m_radius:Number;
-	
+
 };
 
 }

@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+
 import Box2D.Common.Math.*;
 import Box2D.Common.*;
 import Box2D.Collision.Shapes.*;
@@ -40,7 +40,7 @@ static public function TimeOfImpact(	shape1:b2Shape, sweep1:b2Sweep,
 {
 	var math1:Number;
 	var math2:Number;
-	
+
 	var r1:Number = shape1.m_sweepRadius;
 	var r2:Number = shape2.m_sweepRadius;
 
@@ -76,10 +76,10 @@ static public function TimeOfImpact(	shape1:b2Shape, sweep1:b2Sweep,
 		var xf2:b2XForm = s_xf2;
 		sweep1.GetXForm(xf1, t);
 		sweep2.GetXForm(xf2, t);
-		
+
 		// Get the distance between shapes.
 		distance = b2Distance.Distance(p1, p2, shape1, xf1, shape2, xf2);
-		
+
 		if (iter == 0)
 		{
 			// Compute a reasonable target distance to give some breathing room
@@ -96,12 +96,12 @@ static public function TimeOfImpact(	shape1:b2Shape, sweep1:b2Sweep,
 				targetDistance = math1 > math2 ? math1 : math2;
 			}
 		}
-		
+
 		if (distance - targetDistance < 0.05 * b2Settings.b2_toiSlop || iter == k_maxIterations)
 		{
 			break;
 		}
-		
+
 		//normal = p2 - p1;
 		normalX = p2.x - p1.x;
 		normalY = p2.y - p1.y;
@@ -109,11 +109,11 @@ static public function TimeOfImpact(	shape1:b2Shape, sweep1:b2Sweep,
 		var nLen:Number = Math.sqrt(normalX*normalX + normalY*normalY);
 		normalX /= nLen;
 		normalY /= nLen;
-		
+
 		// Compute upper bound on remaining movement.
 		//float32 approachVelocityBound = b2Dot(normal, v1 - v2) + b2Abs(omega1) * r1 + b2Abs(omega2) * r2;
 		var approachVelocityBound:Number = 	(normalX*(v1X - v2X) + normalY*(v1Y - v2Y))
-											+ (omega1 < 0 ? -omega1 : omega1) * r1 
+											+ (omega1 < 0 ? -omega1 : omega1) * r1
 											+ (omega2 < 0 ? -omega2 : omega2) * r2;
 		//if (Math.abs(approachVelocityBound) < Number.MIN_VALUE)
 		if (approachVelocityBound == 0)
@@ -121,27 +121,27 @@ static public function TimeOfImpact(	shape1:b2Shape, sweep1:b2Sweep,
 			alpha = 1.0;
 			break;
 		}
-		
+
 		// Get the conservative time increment. Don't advance all the way.
 		var dAlpha:Number = (distance - targetDistance) / approachVelocityBound;
 		//float32 dt = (distance - 0.5f * b2_linearSlop) / approachVelocityBound;
 		var newAlpha:Number = alpha + dAlpha;
-		
+
 		// The shapes may be moving apart or a safe distance apart.
 		if (newAlpha < 0.0 || 1.0 < newAlpha)
 		{
 			alpha = 1.0;
 			break;
 		}
-		
+
 		// Ensure significant advancement.
 		if (newAlpha < (1.0 + 100.0 * Number.MIN_VALUE) * alpha)
 		{
 			break;
 		}
-		
+
 		alpha = newAlpha;
-		
+
 		++iter;
 	}
 

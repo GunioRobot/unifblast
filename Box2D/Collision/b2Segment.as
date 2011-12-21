@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+
 import Box2D.Collision.*;
 import Box2D.Common.Math.*;
 import Box2D.Common.*;
@@ -43,7 +43,7 @@ public class b2Segment
 	// mu2 = det[-r b] / denom
 	public function TestSegment(lambda:Array, // float pointer
 								normal:b2Vec2, // pointer
-								segment:b2Segment, 
+								segment:b2Segment,
 								maxLambda:Number) : Boolean{
 		//b2Vec2 s = segment.p1;
 		var s:b2Vec2 = segment.p1;
@@ -56,11 +56,11 @@ public class b2Segment
 		//b2Vec2 n = b2Cross(d, 1.0f);
 		var nX:Number = dY;
 		var nY:Number = -dX;
-		
+
 		var k_slop:Number = 100.0 * Number.MIN_VALUE;
 		//var denom:Number = -b2Dot(r, n);
 		var denom:Number = -(rX*nX + rY*nY);
-		
+
 		// Cull back facing collision and ignore parallel segments.
 		if (denom > k_slop)
 		{
@@ -70,11 +70,11 @@ public class b2Segment
 			var bY:Number = s.y - p1.y;
 			//var a:Number = b2Dot(b, n);
 			var a:Number = (bX*nX + bY*nY);
-			
+
 			if (0.0 <= a && a <= maxLambda * denom)
 			{
 				var mu2:Number = -rX * bY + rY * bX;
-				
+
 				// Does the segment intersect this segment?
 				if (-k_slop * denom <= mu2 && mu2 <= denom * (1.0 + k_slop))
 				{
@@ -91,10 +91,10 @@ public class b2Segment
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public var p1:b2Vec2 = new b2Vec2();	///< the starting point
 	public var p2:b2Vec2 = new b2Vec2();	///< the ending point
 };

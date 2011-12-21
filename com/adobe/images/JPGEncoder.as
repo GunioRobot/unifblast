@@ -8,12 +8,12 @@ package com.adobe.images
 		public var len:int = 0;
 		public var val:int = 0;
 	};
-	
+
 	public class JPEGEncoder
 	{
 
 		// Static table initialization
-	
+
 		private var ZigZag:Array = [
 			 0, 1, 5, 6,14,15,27,28,
 			 2, 4, 7,13,16,26,29,42,
@@ -24,12 +24,12 @@ package com.adobe.images
 			21,34,37,47,50,56,59,61,
 			35,36,48,49,57,58,62,63
 		];
-	
+
 		private var YTable:Array = new Array(64);
 		private var UVTable:Array = new Array(64);
 		private var fdtbl_Y:Array = new Array(64);
 		private var fdtbl_UV:Array = new Array(64);
-	
+
 		private function initQuantTables(sf:int):Void
 		{
 			var YQT:Array = [
@@ -85,12 +85,12 @@ package com.adobe.images
 				}
 			}
 		}
-	
+
 		private var YDC_HT:Array;
 		private var UVDC_HT:Array;
 		private var YAC_HT:Array;
 		private var UVAC_HT:Array;
-	
+
 		private function computeHuffmanTbl(nrcodes:Array, std_table:Array):Array
 		{
 			var codevalue:int = 0;
@@ -108,7 +108,7 @@ package com.adobe.images
 			}
 			return HT;
 		}
-	
+
 		private var std_dc_luminance_nrcodes:Array = [0,0,1,5,1,1,1,1,1,1,0,0,0,0,0,0,0];
 		private var std_dc_luminance_values:Array = [0,1,2,3,4,5,6,7,8,9,10,11];
 		private var std_ac_luminance_nrcodes:Array = [0,0,2,1,3,3,2,4,3,5,5,4,4,0,0,1,0x7d];
@@ -135,7 +135,7 @@ package com.adobe.images
 			0xf1,0xf2,0xf3,0xf4,0xf5,0xf6,0xf7,0xf8,
 			0xf9,0xfa
 		];
-	
+
 		private var std_dc_chrominance_nrcodes:Array = [0,0,3,1,1,1,1,1,1,1,1,1,0,0,0,0,0];
 		private var std_dc_chrominance_values:Array = [0,1,2,3,4,5,6,7,8,9,10,11];
 		private var std_ac_chrominance_nrcodes:Array = [0,0,2,1,2,4,4,3,4,7,5,4,4,0,1,2,0x77];
@@ -162,7 +162,7 @@ package com.adobe.images
 			0xea,0xf2,0xf3,0xf4,0xf5,0xf6,0xf7,0xf8,
 			0xf9,0xfa
 		];
-	
+
 		private function initHuffmanTbl():Void
 		{
 			YDC_HT = computeHuffmanTbl(std_dc_luminance_nrcodes,std_dc_luminance_values);
@@ -170,10 +170,10 @@ package com.adobe.images
 			YAC_HT = computeHuffmanTbl(std_ac_luminance_nrcodes,std_ac_luminance_values);
 			UVAC_HT = computeHuffmanTbl(std_ac_chrominance_nrcodes,std_ac_chrominance_values);
 		}
-	
+
 		private var bitcode:Array = new Array(65535);
 		private var category:Array = new Array(65535);
-	
+
 		private function initCategoryNumber()
 		{
 			var nrlower:int = 1;
@@ -197,13 +197,13 @@ package com.adobe.images
 				nrupper <<= 1;
 			}
 		}
-	
+
 		// IO functions
-	
+
 		private var byteout:ByteArray;
 		private var bytenew:int = 0;
 		private var bytepos:int = 7;
-	
+
 		private function writeBits(bs:BitString):Void
 		{
 			var value:int = bs.val;
@@ -227,20 +227,20 @@ package com.adobe.images
 				}
 			}
 		}
-	
+
 		private function writeByte(value:int)
 		{
 			byteout.writeByte(value);
 		}
-	
+
 		private function writeWord(value:int)
 		{
 			writeByte((value>>8)&0xFF);
 			writeByte((value   )&0xFF);
 		}
-	
+
 		// DCT & quantization core
-	
+
 		private function fDCTQuant(data:Array, fdtbl:Array):Array
 		{
 			/* Pass 1: process rows. */
@@ -254,42 +254,42 @@ package com.adobe.images
 				var tmp5:Number = data[dataOff+2] - data[dataOff+5];
 				var tmp3:Number = data[dataOff+3] + data[dataOff+4];
 				var tmp4:Number = data[dataOff+3] - data[dataOff+4];
-	
+
 				/* Even part */
 				var tmp10:Number = tmp0 + tmp3;	/* phase 2 */
 				var tmp13:Number = tmp0 - tmp3;
 				var tmp11:Number = tmp1 + tmp2;
 				var tmp12:Number = tmp1 - tmp2;
-	
+
 				data[dataOff+0] = tmp10 + tmp11; /* phase 3 */
 				data[dataOff+4] = tmp10 - tmp11;
-	
+
 				var z1:Number = (tmp12 + tmp13) * 0.707106781; /* c4 */
 				data[dataOff+2] = tmp13 + z1; /* phase 5 */
 				data[dataOff+6] = tmp13 - z1;
-	
+
 				/* Odd part */
 				tmp10 = tmp4 + tmp5; /* phase 2 */
 				tmp11 = tmp5 + tmp6;
 				tmp12 = tmp6 + tmp7;
-	
+
 				/* The rotator is modified from fig 4-8 to avoid extra negations. */
 				var z5:Number = (tmp10 - tmp12) * 0.382683433; /* c6 */
 				var z2:Number = 0.541196100 * tmp10 + z5; /* c2-c6 */
 				var z4:Number = 1.306562965 * tmp12 + z5; /* c2+c6 */
 				var z3:Number = tmp11 * 0.707106781; /* c4 */
-	
+
 				var z11:Number = tmp7 + z3;	/* phase 5 */
 				var z13:Number = tmp7 - z3;
-	
+
 				data[dataOff+5] = z13 + z2;	/* phase 6 */
 				data[dataOff+3] = z13 - z2;
 				data[dataOff+1] = z11 + z4;
 				data[dataOff+7] = z11 - z4;
-	
+
 				dataOff += 8; /* advance pointer to next row */
 			}
-	
+
 			/* Pass 2: process columns. */
 			dataOff = 0;
 			for (var i:int=0; i<8; i++) {
@@ -301,42 +301,42 @@ package com.adobe.images
 				var tmp5:Number = data[dataOff+16] - data[dataOff+40];
 				var tmp3:Number = data[dataOff+24] + data[dataOff+32];
 				var tmp4:Number = data[dataOff+24] - data[dataOff+32];
-	
+
 				/* Even part */
 				var tmp10:Number = tmp0 + tmp3;	/* phase 2 */
 				var tmp13:Number = tmp0 - tmp3;
 				var tmp11:Number = tmp1 + tmp2;
 				var tmp12:Number = tmp1 - tmp2;
-	
+
 				data[dataOff+ 0] = tmp10 + tmp11; /* phase 3 */
 				data[dataOff+32] = tmp10 - tmp11;
-	
+
 				var z1:Number = (tmp12 + tmp13) * 0.707106781; /* c4 */
 				data[dataOff+16] = tmp13 + z1; /* phase 5 */
 				data[dataOff+48] = tmp13 - z1;
-	
+
 				/* Odd part */
 				tmp10 = tmp4 + tmp5; /* phase 2 */
 				tmp11 = tmp5 + tmp6;
 				tmp12 = tmp6 + tmp7;
-	
+
 				/* The rotator is modified from fig 4-8 to avoid extra negations. */
 				var z5:Number = (tmp10 - tmp12) * 0.382683433; /* c6 */
 				var z2:Number = 0.541196100 * tmp10 + z5; /* c2-c6 */
 				var z4:Number = 1.306562965 * tmp12 + z5; /* c2+c6 */
 				var z3:Number= tmp11 * 0.707106781; /* c4 */
-	
+
 				var z11:Number = tmp7 + z3;	/* phase 5 */
 				var z13:Number = tmp7 - z3;
-	
+
 				data[dataOff+40] = z13 + z2; /* phase 6 */
 				data[dataOff+24] = z13 - z2;
 				data[dataOff+ 8] = z11 + z4;
 				data[dataOff+56] = z11 - z4;
-	
+
 				dataOff++; /* advance pointer to next column */
 			}
-	
+
 			// Quantize/descale the coefficients
 			for (var i:int=0; i<64; i++) {
 				// Apply the quantization and scaling factor & Round to nearest integer
@@ -344,9 +344,9 @@ package com.adobe.images
 			}
 			return data;
 		}
-	
+
 		// Chunk writing
-	
+
 		private function writeAPP0():Void
 		{
 			writeWord(0xFFE0); // marker
@@ -364,7 +364,7 @@ package com.adobe.images
 			writeByte(0); // thumbnwidth
 			writeByte(0); // thumbnheight
 		}
-	
+
 		private function writeSOF0(width:int, height:int):Void
 		{
 			writeWord(0xFFC0); // marker
@@ -383,7 +383,7 @@ package com.adobe.images
 			writeByte(0x11); // HVV
 			writeByte(1);    // QTV
 		}
-	
+
 		private function writeDQT():Void
 		{
 			writeWord(0xFFDB); // marker
@@ -397,12 +397,12 @@ package com.adobe.images
 				writeByte(UVTable[i]);
 			}
 		}
-	
+
 		private function writeDHT():Void
 		{
 			writeWord(0xFFC4); // marker
 			writeWord(0x01A2); // length
-	
+
 			writeByte(0); // HTYDCinfo
 			for (var i:int=0; i<16; i++) {
 				writeByte(std_dc_luminance_nrcodes[i+1]);
@@ -410,7 +410,7 @@ package com.adobe.images
 			for (var i:int=0; i<=11; i++) {
 				writeByte(std_dc_luminance_values[i]);
 			}
-	
+
 			writeByte(0x10); // HTYACinfo
 			for (var i:int=0; i<16; i++) {
 				writeByte(std_ac_luminance_nrcodes[i+1]);
@@ -418,7 +418,7 @@ package com.adobe.images
 			for (var i:int=0; i<=161; i++) {
 				writeByte(std_ac_luminance_values[i]);
 			}
-	
+
 			writeByte(1); // HTUDCinfo
 			for (var i:int=0; i<16; i++) {
 				writeByte(std_dc_chrominance_nrcodes[i+1]);
@@ -426,7 +426,7 @@ package com.adobe.images
 			for (var i:int=0; i<=11; i++) {
 				writeByte(std_dc_chrominance_values[i]);
 			}
-	
+
 			writeByte(0x11); // HTUACinfo
 			for (var i:int=0; i<16; i++) {
 				writeByte(std_ac_chrominance_nrcodes[i+1]);
@@ -435,7 +435,7 @@ package com.adobe.images
 				writeByte(std_ac_chrominance_values[i]);
 			}
 		}
-	
+
 		private function writeSOS():Void
 		{
 			writeWord(0xFFDA); // marker
@@ -451,15 +451,15 @@ package com.adobe.images
 			writeByte(0x3f); // Se
 			writeByte(0); // Bf
 		}
-	
+
 		// Core processing
 		var DU:Array = new Array(64);
-	
+
 		private function processDU(CDU:Array, fdtbl:Array, DC:Number, HTDC:Array, HTAC:Array):Number
 		{
 			var EOB:BitString = HTAC[0x00];
 			var M16zeroes:BitString = HTAC[0xF0];
-	
+
 			var DU_DCT:Array = fDCTQuant(CDU, fdtbl);
 			//ZigZag reorder
 			for (var i:int=0;i<64;i++) {
@@ -503,11 +503,11 @@ package com.adobe.images
 			}
 			return DC;
 		}
-	
+
 		private var YDU:Array = new Array(64);
 		private var UDU:Array = new Array(64);
 		private var VDU:Array = new Array(64);
-	
+
 		private function RGB2YUV(img:BitmapData, xpos:int, ypos:int)
 		{
 			var pos:int=0;
@@ -524,7 +524,7 @@ package com.adobe.images
 				}
 			}
 		}
-	
+
 		public function JPEGEncoder(quality:Number = 50)
 		{
 			if (quality <= 0) {
@@ -544,14 +544,14 @@ package com.adobe.images
 			initCategoryNumber();
 			initQuantTables(sf);
 		}
-	
+
 		public function encode(image:BitmapData):ByteArray
 		{
 			// Initialize bit writer
 			byteout = new ByteArray();
 			bytenew=0;
 			bytepos=7;
-	
+
 			// Add JPEG headers
 			writeWord(0xFFD8); // SOI
 			writeAPP0();
@@ -560,7 +560,7 @@ package com.adobe.images
 			writeDHT();
 			writeSOS();
 
-	
+
 			// Encode 8x8 macroblocks
 			var DCY:Number=0;
 			var DCU:Number=0;
@@ -575,7 +575,7 @@ package com.adobe.images
 					DCV = processDU(VDU, fdtbl_UV, DCV, UVDC_HT, UVAC_HT);
 				}
 			}
-	
+
 			// Do the bit alignment of the EOI marker
 			if ( bytepos >= 0 ) {
 				var fillbits:BitString = new BitString();
@@ -583,7 +583,7 @@ package com.adobe.images
 				fillbits.val = (1<<(bytepos+1))-1;
 				writeBits(fillbits);
 			}
-	
+
 			writeWord(0xFFD9); //EOI
 			return byteout;
 		}

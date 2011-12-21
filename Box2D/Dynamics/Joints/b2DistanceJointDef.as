@@ -18,7 +18,7 @@
 
 package Box2D.Dynamics.Joints{
 
-	
+
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.Joints.*;
 import Box2D.Dynamics.*;
@@ -41,7 +41,7 @@ public class b2DistanceJointDef extends b2JointDef
 		frequencyHz = 0.0;
 		dampingRatio = 0.0;
 	}
-	
+
 	/// Initialize the bodies, anchors, and length using the world
 	/// anchors.
 	public function Initialize(b1:b2Body, b2:b2Body,

@@ -32,12 +32,12 @@ public class b2PolygonDef extends b2ShapeDef
 	{
 		type = b2Shape.e_polygonShape;
 		vertexCount = 0;
-		
+
 		for (var i:int = 0; i < b2Settings.b2_maxPolygonVertices; i++){
 			vertices[i] = new b2Vec2();
 		}
 	}
-	
+
 	/// Build vertices to represent an axis-aligned box.
 	/// @param hx the half-width.
 	/// @param hy the half-height.
@@ -64,7 +64,7 @@ public class b2PolygonDef extends b2ShapeDef
 			vertices[2].Set( hx,  hy);
 			vertices[3].Set(-hx,  hy);
 		}
-		
+
 		if (center){
 			//b2XForm xf;
 			//xf.position = center;
@@ -72,7 +72,7 @@ public class b2PolygonDef extends b2ShapeDef
 			//xf.R.Set(angle);
 			var xfR:b2Mat22 = s_mat;
 			xfR.Set(angle);
-			
+
 			for (var i:int = 0; i < vertexCount; ++i)
 			{
 				//vertices[i] = b2Mul(xf, vertices[i]);

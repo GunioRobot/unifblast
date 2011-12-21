@@ -30,7 +30,7 @@ public class Features
 		return _referenceEdge;
 	}
 	public var _referenceEdge:int;
-	
+
 	///< The edge most anti-parallel to the reference edge.
 	public function set incidentEdge(value:int) : void{
 		_incidentEdge = value;
@@ -40,7 +40,7 @@ public class Features
 		return _incidentEdge;
 	}
 	public var _incidentEdge:int;
-	
+
 	///< The vertex (0 or 1) on the incident edge that was clipped.
 	public function set incidentVertex(value:int) : void{
 		_incidentVertex = value;
@@ -50,7 +50,7 @@ public class Features
 		return _incidentVertex;
 	}
 	public var _incidentVertex:int;
-	
+
 	///< A value of 1 indicates that the reference edge is on shape2.
 	public function set flip(value:int) : void{
 		_flip = value;
@@ -60,8 +60,8 @@ public class Features
 		return _flip;
 	}
 	public var _flip:int;
-	
-	
+
+
 	public var _m_id:b2ContactID;
 };
 

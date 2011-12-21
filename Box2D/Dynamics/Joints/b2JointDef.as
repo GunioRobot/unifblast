@@ -26,7 +26,7 @@ import Box2D.Dynamics.*;
 /// Joint definitions are used to construct joints.
 public class b2JointDef
 {
-	
+
 	public function b2JointDef()
 	{
 		type = b2Joint.e_unknownJoint;
@@ -46,7 +46,7 @@ public class b2JointDef
 	public var body2:b2Body;
 	/// Set this flag to true if the attached bodies should collide.
 	public var collideConnected:Boolean;
-	
+
 }
 
 }

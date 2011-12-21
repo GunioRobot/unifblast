@@ -17,8 +17,8 @@
 */
 
 package Box2D.Dynamics.Joints{
-	
-	
+
+
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.*;
 
@@ -89,7 +89,7 @@ public class b2RevoluteJointDef extends b2JointDef
 	/// The maximum motor torque used to achieve the desired motor speed.
 	/// Usually in N-m.
 	public var maxMotorTorque:Number;
-	
+
 };
 
 }

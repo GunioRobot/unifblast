@@ -17,9 +17,9 @@
 */
 
 package Box2D.Dynamics.Joints{
-	
-	
-	
+
+
+
 import Box2D.Common.Math.*;
 import Box2D.Common.*;
 import Box2D.Dynamics.*;
@@ -77,23 +77,23 @@ public class b2GearJoint extends b2Joint
 	public function b2GearJoint(def:b2GearJointDef){
 		// parent constructor
 		super(def);
-		
+
 		var type1:int = def.joint1.m_type;
 		var type2:int = def.joint2.m_type;
-		
+
 		//b2Settings.b2Assert(type1 == b2Joint.e_revoluteJoint || type1 == b2Joint.e_prismaticJoint);
 		//b2Settings.b2Assert(type2 == b2Joint.e_revoluteJoint || type2 == b2Joint.e_prismaticJoint);
 		//b2Settings.b2Assert(def.joint1.m_body1.IsStatic());
 		//b2Settings.b2Assert(def.joint2.m_body1.IsStatic());
-		
+
 		m_revolute1 = null;
 		m_prismatic1 = null;
 		m_revolute2 = null;
 		m_prismatic2 = null;
-		
+
 		var coordinate1:Number;
 		var coordinate2:Number;
-		
+
 		m_ground1 = def.joint1.m_body1;
 		m_body1 = def.joint1.m_body2;
 		if (type1 == b2Joint.e_revoluteJoint)
@@ -110,7 +110,7 @@ public class b2GearJoint extends b2Joint
 			m_localAnchor1.SetV( m_prismatic1.m_localAnchor2 );
 			coordinate1 = m_prismatic1.GetJointTranslation();
 		}
-		
+
 		m_ground2 = def.joint2.m_body1;
 		m_body2 = def.joint2.m_body2;
 		if (type2 == b2Joint.e_revoluteJoint)
@@ -127,13 +127,13 @@ public class b2GearJoint extends b2Joint
 			m_localAnchor2.SetV( m_prismatic2.m_localAnchor2 );
 			coordinate2 = m_prismatic2.GetJointTranslation();
 		}
-		
+
 		m_ratio = def.ratio;
-		
+
 		m_constant = coordinate1 + m_ratio * coordinate2;
-		
+
 		m_force = 0.0;
-		
+
 	}
 
 	public override function InitVelocityConstraints(step:b2TimeStep) : void{
@@ -141,7 +141,7 @@ public class b2GearJoint extends b2Joint
 		var g2:b2Body = m_ground2;
 		var b1:b2Body = m_body1;
 		var b2:b2Body = m_body2;
-		
+
 		// temp vars
 		var ugX:Number;
 		var ugY:Number;
@@ -151,10 +151,10 @@ public class b2GearJoint extends b2Joint
 		var tVec:b2Vec2;
 		var crug:Number;
 		var tX:Number;
-		
+
 		var K:Number = 0.0;
 		m_J.SetZero();
-		
+
 		if (m_revolute1)
 		{
 			m_J.angular1 = -1.0;
@@ -174,7 +174,7 @@ public class b2GearJoint extends b2Joint
 			tX = tMat.col1.x * rX + tMat.col2.x * rY;
 			rY = tMat.col1.y * rX + tMat.col2.y * rY;
 			rX = tX;
-			
+
 			//var crug:Number = b2Cross(r, ug);
 			crug = rX * ugY - rY * ugX;
 			//m_J.linear1 = -ug;
@@ -182,7 +182,7 @@ public class b2GearJoint extends b2Joint
 			m_J.angular1 = -crug;
 			K += b1.m_invMass + b1.m_invI * crug * crug;
 		}
-		
+
 		if (m_revolute2)
 		{
 			m_J.angular2 = -m_ratio;
@@ -202,7 +202,7 @@ public class b2GearJoint extends b2Joint
 			tX = tMat.col1.x * rX + tMat.col2.x * rY;
 			rY = tMat.col1.y * rX + tMat.col2.y * rY;
 			rX = tX;
-			
+
 			//float32 crug = b2Cross(r, ug);
 			crug = rX * ugY - rY * ugX;
 			//m_J.linear2 = -m_ratio * ug;
@@ -210,11 +210,11 @@ public class b2GearJoint extends b2Joint
 			m_J.angular2 = -m_ratio * crug;
 			K += m_ratio * m_ratio * (b2.m_invMass + b2.m_invI * crug * crug);
 		}
-		
+
 		// Compute effective mass.
 		//b2Settings.b2Assert(K > 0.0);
 		m_mass = 1.0 / K;
-		
+
 		if (step.warmStarting)
 		{
 			// Warm starting.
@@ -233,18 +233,18 @@ public class b2GearJoint extends b2Joint
 			m_force = 0.0;
 		}
 	}
-	
-	
+
+
 	public override function SolveVelocityConstraints(step:b2TimeStep): void{
 		var b1:b2Body = m_body1;
 		var b2:b2Body = m_body2;
-		
+
 		var Cdot:Number = m_J.Compute(	b1.m_linearVelocity, b1.m_angularVelocity,
 										b2.m_linearVelocity, b2.m_angularVelocity);
-		
+
 		var force:Number = -step.inv_dt * m_mass * Cdot;
 		m_force += force;
-		
+
 		var P:Number = step.dt * force;
 		b1.m_linearVelocity.x += b1.m_invMass * P * m_J.linear1.x;
 		b1.m_linearVelocity.y += b1.m_invMass * P * m_J.linear1.y;
@@ -253,13 +253,13 @@ public class b2GearJoint extends b2Joint
 		b2.m_linearVelocity.y += b2.m_invMass * P * m_J.linear2.y;
 		b2.m_angularVelocity  += b2.m_invI * P * m_J.angular2;
 	}
-	
+
 	public override function SolvePositionConstraints():Boolean{
 		var linearError:Number = 0.0;
-		
+
 		var b1:b2Body = m_body1;
 		var b2:b2Body = m_body2;
-		
+
 		var coordinate1:Number;
 		var coordinate2:Number;
 		if (m_revolute1)
@@ -270,7 +270,7 @@ public class b2GearJoint extends b2Joint
 		{
 			coordinate1 = m_prismatic1.GetJointTranslation();
 		}
-		
+
 		if (m_revolute2)
 		{
 			coordinate2 = m_revolute2.GetJointAngle();
@@ -279,21 +279,21 @@ public class b2GearJoint extends b2Joint
 		{
 			coordinate2 = m_prismatic2.GetJointTranslation();
 		}
-		
+
 		var C:Number = m_constant - (coordinate1 + m_ratio * coordinate2);
-		
+
 		var impulse:Number = -m_mass * C;
-		
+
 		b1.m_sweep.c.x += b1.m_invMass * impulse * m_J.linear1.x;
 		b1.m_sweep.c.y += b1.m_invMass * impulse * m_J.linear1.y;
 		b1.m_sweep.a += b1.m_invI * impulse * m_J.angular1;
 		b2.m_sweep.c.x += b2.m_invMass * impulse * m_J.linear2.x;
 		b2.m_sweep.c.y += b2.m_invMass * impulse * m_J.linear2.y;
 		b2.m_sweep.a += b2.m_invI * impulse * m_J.angular2;
-		
+
 		b1.SynchronizeTransform();
 		b2.SynchronizeTransform();
-		
+
 		return linearError < b2Settings.b2_linearSlop;
 	}
 

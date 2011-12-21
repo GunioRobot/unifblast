@@ -18,7 +18,7 @@
 
 package Box2D.Dynamics.Contacts{
 
-	
+
 import Box2D.Collision.*;
 import Box2D.Dynamics.*;
 

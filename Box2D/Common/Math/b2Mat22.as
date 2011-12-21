@@ -18,10 +18,10 @@
 
 package Box2D.Common.Math{
 
-	
+
 import Box2D.Common.*;
-	
-	
+
+
 /// A 2-by-2 matrix. Stored in column-major order.
 public class b2Mat22
 {
@@ -46,23 +46,23 @@ public class b2Mat22
 		col1.x = c; col2.x = -s;
 		col1.y = s; col2.y = c;
 	}
-	
+
 	public function SetVV(c1:b2Vec2, c2:b2Vec2) : void
 	{
 		col1.SetV(c1);
 		col2.SetV(c2);
 	}
-	
+
 	public function Copy():b2Mat22{
 		return new b2Mat22(0, col1, col2);
 	}
-	
+
 	public function SetM(m:b2Mat22) : void
 	{
 		col1.SetV(m.col1);
 		col2.SetV(m.col2);
 	}
-	
+
 	public function AddM(m:b2Mat22) : void
 	{
 		col1.x += m.col1.x;
@@ -70,7 +70,7 @@ public class b2Mat22
 		col2.x += m.col2.x;
 		col2.y += m.col2.y;
 	}
-	
+
 	public function SetIdentity() : void
 	{
 		col1.x = 1.0; col2.x = 0.0;
@@ -82,7 +82,7 @@ public class b2Mat22
 		col1.x = 0.0; col2.x = 0.0;
 		col1.y = 0.0; col2.y = 0.0;
 	}
-	
+
 	public function GetAngle() :Number
 	{
 		return Math.atan2(col1.y, col1.x);
@@ -90,9 +90,9 @@ public class b2Mat22
 
 	public function Invert(out:b2Mat22):b2Mat22
 	{
-		var a:Number = col1.x; 
-		var b:Number = col2.x; 
-		var c:Number = col1.y; 
+		var a:Number = col1.x;
+		var b:Number = col2.x;
+		var c:Number = col1.y;
 		var d:Number = col2.y;
 		//var B:b2Mat22 = new b2Mat22();
 		var det:Number = a * d - b * c;
@@ -102,7 +102,7 @@ public class b2Mat22
 		out.col1.y = -det * c;	out.col2.y =  det * a;
 		return out;
 	}
-	
+
 	// Solve A * x = b
 	public function Solve(out:b2Vec2, bX:Number, bY:Number):b2Vec2
 	{
@@ -117,10 +117,10 @@ public class b2Mat22
 		det = 1.0 / det;
 		out.x = det * (a22 * bX - a12 * bY);
 		out.y = det * (a11 * bY - a21 * bX);
-		
+
 		return out;
 	}
-	
+
 	public function Abs() : void
 	{
 		col1.Abs();

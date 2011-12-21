@@ -17,11 +17,11 @@
 */
 
 package Box2D.Dynamics.Joints{
-	
+
 
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.*;
-	
+
 
 public class b2PrismaticJointDef extends b2JointDef
 {
@@ -39,7 +39,7 @@ public class b2PrismaticJointDef extends b2JointDef
 		maxMotorForce = 0.0;
 		motorSpeed = 0.0;
 	}
-	
+
 	public function Initialize(b1:b2Body, b2:b2Body, anchor:b2Vec2, axis:b2Vec2) : void
 	{
 		body1 = b1;

@@ -1,16 +1,16 @@
 ﻿/*
  * Copyright 2007 (c) Vladimir Bodurov
  * http://blog.bodurov.com
- * 
+ *
  * Tracer 1.1 Sep 09, 2007
  */
 package library {
 	import flash.net.LocalConnection;
 	import flash.events.StatusEvent;
-	
+
 	public class t extends Object{
-		
-		
+
+
 		private static var __FlashTracer_DoNotBroadcast:Boolean = false;
 		public static function get DoNotBroadcast():Boolean{
 			return __FlashTracer_DoNotBroadcast;
@@ -18,8 +18,8 @@ package library {
 		public static function set DoNotBroadcast(val:Boolean):void{
 			__FlashTracer_DoNotBroadcast = val;
 		}
-		
-		
+
+
 		private static var __FlashTracer_DoNotTrace:Boolean = false;
 		public static function get DoNotTrace():Boolean{
 			return __FlashTracer_DoNotTrace;
@@ -27,9 +27,9 @@ package library {
 		public static function set DoNotTrace(val:Boolean):void{
 			__FlashTracer_DoNotTrace = val;
 		}
-		
-		
-		
+
+
+
 		public static function get stack():String{
 			var str:String = "";
 			try {
@@ -44,8 +44,8 @@ package library {
 			}
 			return str;
 		}
-		
-		
+
+
 		public static function str(...arguments):void{
 			var strValue:String = arguments.join(" | ");
 			if(!__FlashTracer_DoNotTrace){
@@ -55,7 +55,7 @@ package library {
 				dispatch(strValue);
 			}
 		}
-		
+
 		public static function lev(...arguments):String{
 			var objVal:Object = (arguments.length > 0)?arguments[0]:null;
 			var levels:Number = (arguments.length > 1)?Number(arguments[1]):Tracer.MAX_NUMBER_LEVELS;
@@ -74,7 +74,7 @@ package library {
 			}
 			return strData;
 		}
-		
+
 		public static function obj(...arguments):String{
 			var objVal:Object = (arguments.length > 0)?arguments[0]:null;
 			var titleVal:String = (arguments.length > 1)?arguments[1]:"";
@@ -87,11 +87,11 @@ package library {
 			}
 			return strData;
 		}
-		
+
 		private static function dispatch(strData:String):void{
 			localConnection.send("__FlashTracer", "Add", strData);
 		}
-		
+
 		private static var _localConnection:LocalConnection = null;
 		private static function get localConnection():LocalConnection{
 			if(_localConnection === null){
@@ -100,7 +100,7 @@ package library {
 			}
 			return _localConnection;
 		}
-		
+
 	}
 }
 
@@ -109,9 +109,9 @@ import flash.utils.getQualifiedClassName;
 import flash.utils.describeType;
 
 class Tracer extends Object{
-	
+
 	public static const MAX_NUMBER_LEVELS:Number = 255;
-	
+
 	private var _object:Object = null;
 	private var _title:String;
 	private var _supressTrace:Boolean;
@@ -121,14 +121,14 @@ class Tracer extends Object{
 	private var _indent:Number = 0;
 	private var _prevIndent:Number = -1;
 	private var _usedObjects:Array;
-	
+
 	public static var indentCache:Object = new Object();
-	
+
 	private static const PRIMITIVES:Array = ["String", "Number", "Boolean", "Date", "int", "uint"]
-	
+
 	private static const INDENT_CHAR:String = "\t";
-	
-	
+
+
 	public function Tracer(object:Object, title:String = "", supressTrace:Boolean = false, allowedDepth:Number =  Tracer.MAX_NUMBER_LEVELS){
 		this._object = object;
 		this._title = title;
@@ -139,7 +139,7 @@ class Tracer extends Object{
 
 		this.parse(this._object);
 	}
-	
+
 	private function parse(object:Object, name:String = "", isInsideCollection:Boolean = false):void{
 		if(Tracer.isPrimitive(object)){
 			this.parseLiteral(object, name, isInsideCollection);
@@ -216,8 +216,8 @@ class Tracer extends Object{
 		if(object == null){
 			this.parseLiteral(object, name);
 			return;
-		}		
-		
+		}
+
 		this.appendString(this.generatePropertyName(name, isInsideCollection)+this.getStartLimiter(isCollection));
 		this._indent++;
 		if(this._indent < this._allowedDepth){
@@ -316,28 +316,28 @@ class Tracer extends Object{
 
 
 class StringBuilder{
-		
+
 	private var _array:Array;
-	
+
 	public function StringBuilder(){
 		this._array = [];
 	}
-	
+
 	public function append(string:String):StringBuilder{
 		this._array.push(string);
 		return this;
 	}
-	
+
 	public function appendFormat(string:String, ...arguments):StringBuilder{
 		this._array.push(StringBuilder.formatString(string, arguments));
 		return this;
 	}
-	
+
 	public static function formatString(...arguments):String{
 		var len = arguments.length;
 		if(len==0) return "";
 		else if(len==1) return arguments[0];
-		
+
 		var str:String = arguments[0];
 		var arrData:Array;
 		if(typeof(arguments[1]) == "object"){
@@ -348,13 +348,13 @@ class StringBuilder{
 				arrData.push( arguments[j] );
 			}
 		}
-	
+
 		for(var i:uint = 0; i < arrData.length; i++){
 			str = str.split("{"+i+"}").join(arrData[i]);
 		}
 		return str;
 	}
-	
+
 	public function toString():String{
 		return this._array.join("");
 	}

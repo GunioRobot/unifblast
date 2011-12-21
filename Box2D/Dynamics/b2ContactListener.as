@@ -51,7 +51,7 @@ public class b2ContactListener
 	/// Called when a contact point is removed. This includes the last
 	/// computed geometry and forces.
 	public virtual function Remove(point:b2ContactPoint) : void{};
-	
+
 	/// Called after a contact point is solved.
 	public virtual function Result(point:b2ContactResult) : void{};
 };

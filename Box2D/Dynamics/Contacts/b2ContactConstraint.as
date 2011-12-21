@@ -32,8 +32,8 @@ public class b2ContactConstraint
 		for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
 			points[i] = new b2ContactConstraintPoint();
 		}
-		
-		
+
+
 	}
 	public var points:Array;
 	public var normal:b2Vec2=new b2Vec2();

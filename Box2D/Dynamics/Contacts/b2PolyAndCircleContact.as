@@ -27,7 +27,7 @@ import Box2D.Common.Math.*;
 
 
 public class b2PolyAndCircleContact extends b2Contact{
-	
+
 	static public function Create(shape1:b2Shape, shape2:b2Shape, allocator:*):b2Contact{
 		return new b2PolyAndCircleContact(shape1, shape2);
 	}
@@ -36,9 +36,9 @@ public class b2PolyAndCircleContact extends b2Contact{
 
 	public function b2PolyAndCircleContact(shape1:b2Shape, shape2:b2Shape){
 		super(shape1, shape2);
-		
+
 		m_manifold = m_manifolds[0];
-		
+
 		b2Settings.b2Assert(m_shape1.m_type == b2Shape.e_polygonShape);
 		b2Settings.b2Assert(m_shape2.m_type == b2Shape.e_circleShape);
 		m_manifold.pointCount = 0;
@@ -56,25 +56,25 @@ public class b2PolyAndCircleContact extends b2Contact{
 		var v1:b2Vec2;
 		var v2:b2Vec2;
 		var mp0:b2ManifoldPoint;
-		
+
 		var b1:b2Body = m_shape1.m_body;
 		var b2:b2Body = m_shape2.m_body;
-		
+
 		//b2Manifold m0;
 		//memcpy(&m0, &m_manifold, sizeof(b2Manifold));
 		// TODO: make sure this is completely necessary
 		m0.Set(m_manifold);
-		
+
 		b2Collision.b2CollidePolygonAndCircle(m_manifold, m_shape1 as b2PolygonShape, b1.m_xf, m_shape2 as b2CircleShape, b2.m_xf);
-		
+
 		var persisted:Array = [false, false];
-		
+
 		var cp:b2ContactPoint = s_evalCP;
 		cp.shape1 = m_shape1;
 		cp.shape2 = m_shape2;
 		cp.friction = m_friction;
 		cp.restitution = m_restitution;
-		
+
 		// Match contact ids to facilitate warm starting.
 		if (m_manifold.pointCount > 0)
 		{
@@ -87,25 +87,25 @@ public class b2PolyAndCircleContact extends b2Contact{
 				mp.tangentImpulse = 0.0;
 				var found:Boolean = false;
 				var idKey:uint = mp.id._key;
-	
+
 				for (var j:int = 0; j < m0.pointCount; ++j)
 				{
 					if (persisted[j] == true)
 					{
 						continue;
 					}
-	
+
 					mp0 = m0.points[ j ];
-	
+
 					if (mp0.id._key == idKey)
 					{
 						persisted[j] = true;
 						mp.normalImpulse = mp0.normalImpulse;
 						mp.tangentImpulse = mp0.tangentImpulse;
-	
+
 						// A persistent point.
 						found = true;
-	
+
 						// Report persistent point.
 						if (listener != null)
 						{
@@ -121,7 +121,7 @@ public class b2PolyAndCircleContact extends b2Contact{
 						break;
 					}
 				}
-	
+
 				// Report added point.
 				if (found == false && listener != null)
 				{
@@ -135,19 +135,19 @@ public class b2PolyAndCircleContact extends b2Contact{
 					listener.Add(cp);
 				}
 			}
-	
+
 			m_manifoldCount = 1;
 		}
 		else
 		{
 			m_manifoldCount = 0;
 		}
-		
+
 		if (listener == null)
 		{
 			return;
 		}
-		
+
 		// Report removed points.
 		for (i = 0; i < m0.pointCount; ++i)
 		{
@@ -155,7 +155,7 @@ public class b2PolyAndCircleContact extends b2Contact{
 			{
 				continue;
 			}
-			
+
 			mp0 = m0.points[ i ];
 			cp.position = b1.GetWorldPoint(mp0.localPoint1);
 			v1 = b1.GetLinearVelocityFromLocalPoint(mp0.localPoint1);
@@ -167,7 +167,7 @@ public class b2PolyAndCircleContact extends b2Contact{
 			listener.Remove(cp);
 		}
 	}
-	
+
 	public override function GetManifolds():Array
 	{
 		return m_manifolds;
@@ -176,7 +176,7 @@ public class b2PolyAndCircleContact extends b2Contact{
 	private var m_manifolds:Array = [new b2Manifold()];
 	public var m_manifold:b2Manifold;
 	private var m0:b2Manifold = new b2Manifold();
-	
+
 }
 
 }

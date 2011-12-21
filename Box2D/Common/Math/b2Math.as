@@ -29,14 +29,14 @@ public class b2Math{
 	{
 		return isFinite(x);
 	}
-	
+
 	/*static public function b2InvSqrt(x:Number):Number{
 		union
 		{
 			float32 x;
 			int32 i;
 		} convert;
-		
+
 		convert.x = x;
 		float32 xhalf = 0.5f * x;
 		convert.i = 0x5f3759df - (convert.i >> 1);
@@ -82,7 +82,7 @@ public class b2Math{
 		var u:b2Vec2 = new b2Vec2(b2Dot(v, A.col1), b2Dot(v, A.col2));
 		return u;
 	}
-	
+
 	static public function b2MulX(T:b2XForm, v:b2Vec2) : b2Vec2
 	{
 		var a:b2Vec2 = b2MulMV(T.R, v);
@@ -113,13 +113,13 @@ public class b2Math{
 		var v:b2Vec2 = new b2Vec2(a.x - b.x, a.y - b.y);
 		return v;
 	}
-	
+
 	static public function b2Distance(a:b2Vec2, b:b2Vec2) : Number{
 		var cX:Number = a.x-b.x;
 		var cY:Number = a.y-b.y;
 		return Math.sqrt(cX*cX + cY*cY);
 	}
-	
+
 	static public function b2DistanceSquared(a:b2Vec2, b:b2Vec2) : Number{
 		var cX:Number = a.x-b.x;
 		var cY:Number = a.y-b.y;
@@ -243,23 +243,23 @@ public class b2Math{
 		var result:Boolean = x > 0 && (x & (x - 1)) == 0;
 		return result;
 	}
-	
-	
+
+
 	// Temp vector functions to reduce calls to 'new'
 	/*static public var tempVec:b2Vec2 = new b2Vec2();
 	static public var tempVec2:b2Vec2 = new b2Vec2();
 	static public var tempVec3:b2Vec2 = new b2Vec2();
 	static public var tempVec4:b2Vec2 = new b2Vec2();
 	static public var tempVec5:b2Vec2 = new b2Vec2();
-	
-	static public var tempMat:b2Mat22 = new b2Mat22();	
-	
+
+	static public var tempMat:b2Mat22 = new b2Mat22();
+
 	static public var tempAABB:b2AABB = new b2AABB();	*/
-	
+
 	static public const b2Vec2_zero:b2Vec2 = new b2Vec2(0.0, 0.0);
 	static public const b2Mat22_identity:b2Mat22 = new b2Mat22(0, new b2Vec2(1.0, 0.0), new b2Vec2(0.0, 1.0));
 	static public const b2XForm_identity:b2XForm = new b2XForm(b2Vec2_zero, b2Mat22_identity);
-	
+
 
 }
 }

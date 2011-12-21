@@ -69,7 +69,7 @@ public class b2MouseJoint extends b2Joint
 
 	public function b2MouseJoint(def:b2MouseJointDef){
 		super(def);
-		
+
 		m_target.SetV(def.target);
 		//m_localAnchor = b2MulT(m_body2.m_xf, m_target);
 		var tX:Number = m_target.x - m_body2.m_xf.position.x;
@@ -77,21 +77,21 @@ public class b2MouseJoint extends b2Joint
 		var tMat:b2Mat22 = m_body2.m_xf.R;
 		m_localAnchor.x = (tX * tMat.col1.x + tY * tMat.col1.y);
 		m_localAnchor.y = (tX * tMat.col2.x + tY * tMat.col2.y);
-		
+
 		m_maxForce = def.maxForce;
 		m_impulse.SetZero();
-		
+
 		var mass:Number = m_body2.m_mass;
-		
+
 		// Frequency
 		var omega:Number = 2.0 * b2Settings.b2_pi * def.frequencyHz;
-		
+
 		// Damping coefficient
 		var d:Number = 2.0 * mass * def.dampingRatio * omega;
-		
+
 		// Spring stiffness
 		var k:Number = (def.timeStep * mass) * (omega * omega);
-		
+
 		// magic formulas
 		//b2Assert(d + k > B2_FLT_EPSILON);
 		m_gamma = 1.0 / (d + k);
@@ -104,9 +104,9 @@ public class b2MouseJoint extends b2Joint
 	private var K2:b2Mat22 = new b2Mat22();
 	public override function InitVelocityConstraints(step:b2TimeStep): void{
 		var b:b2Body = m_body2;
-		
+
 		var tMat:b2Mat22;
-		
+
 		// Compute the effective mass matrix.
 		//b2Vec2 r = b2Mul(b->m_xf.R, m_localAnchor - b->GetLocalCenter());
 		tMat = b.m_xf.R;
@@ -115,37 +115,37 @@ public class b2MouseJoint extends b2Joint
 		var tX:Number = (tMat.col1.x * rX + tMat.col2.x * rY);
 		rY = (tMat.col1.y * rX + tMat.col2.y * rY);
 		rX = tX;
-		
+
 		// K    = [(1/m1 + 1/m2) * eye(2) - skew(r1) * invI1 * skew(r1) - skew(r2) * invI2 * skew(r2)]
 		//      = [1/m1+1/m2     0    ] + invI1 * [r1.y*r1.y -r1.x*r1.y] + invI2 * [r1.y*r1.y -r1.x*r1.y]
 		//        [    0     1/m1+1/m2]           [-r1.x*r1.y r1.x*r1.x]           [-r1.x*r1.y r1.x*r1.x]
 		var invMass:Number = b.m_invMass;
 		var invI:Number = b.m_invI;
-		
+
 		//b2Mat22 K1;
 		K1.col1.x = invMass;	K1.col2.x = 0.0;
 		K1.col1.y = 0.0;		K1.col2.y = invMass;
-		
+
 		//b2Mat22 K2;
 		K2.col1.x =  invI * rY * rY;	K2.col2.x = -invI * rX * rY;
 		K2.col1.y = -invI * rX * rY;	K2.col2.y =  invI * rX * rX;
-		
+
 		//b2Mat22 K = K1 + K2;
 		K.SetM(K1);
 		K.AddM(K2);
 		K.col1.x += m_gamma;
 		K.col2.y += m_gamma;
-		
+
 		//m_ptpMass = K.Invert();
 		K.Invert(m_mass);
-		
+
 		//m_C = b.m_position + r - m_target;
 		m_C.x = b.m_sweep.c.x + rX - m_target.x;
 		m_C.y = b.m_sweep.c.y + rY - m_target.y;
-		
+
 		// Cheat with some damping
 		b.m_angularVelocity *= 0.98;
-		
+
 		// Warm starting.
 		//b2Vec2 P = m_impulse;
 		var PX:Number = step.dt * m_impulse.x;
@@ -156,15 +156,15 @@ public class b2MouseJoint extends b2Joint
 		//b.m_angularVelocity += invI * b2Cross(r, P);
 		b.m_angularVelocity += invI * (rX * PY - rY * PX);
 	}
-	
-	
+
+
 	public override function SolveVelocityConstraints(step:b2TimeStep) : void{
 		var b:b2Body = m_body2;
-		
+
 		var tMat:b2Mat22;
 		var tX:Number;
 		var tY:Number;
-		
+
 		// Compute the effective mass matrix.
 		//b2Vec2 r = b2Mul(b->m_xf.R, m_localAnchor - b->GetLocalCenter());
 		tMat = b.m_xf.R;
@@ -173,7 +173,7 @@ public class b2MouseJoint extends b2Joint
 		tX = (tMat.col1.x * rX + tMat.col2.x * rY);
 		rY = (tMat.col1.y * rX + tMat.col2.y * rY);
 		rX = tX;
-		
+
 		// Cdot = v + cross(w, r)
 		//b2Vec2 Cdot = b->m_linearVelocity + b2Cross(b->m_angularVelocity, r);
 		var CdotX:Number = b.m_linearVelocity.x + (-b.m_angularVelocity * rY);
@@ -184,7 +184,7 @@ public class b2MouseJoint extends b2Joint
 		tY = CdotY + (m_beta * step.inv_dt) * m_C.y + m_gamma * step.dt * m_impulse.y;
 		var forceX:Number = -step.inv_dt * (tMat.col1.x * tX + tMat.col2.x * tY);
 		var forceY:Number = -step.inv_dt * (tMat.col1.y * tX + tMat.col2.y * tY);
-		
+
 		var oldForceX:Number = m_impulse.x;
 		var oldForceY:Number = m_impulse.y;
 		//m_force += force;
@@ -199,7 +199,7 @@ public class b2MouseJoint extends b2Joint
 		//force = m_impulse - oldForce;
 		forceX = m_impulse.x - oldForceX;
 		forceY = m_impulse.y - oldForceY;
-		
+
 		//b2Vec2 P = step.dt * force;
 		var PX:Number = step.dt * forceX;
 		var PY:Number = step.dt * forceY;
@@ -209,8 +209,8 @@ public class b2MouseJoint extends b2Joint
 		//b->m_angularVelocity += b->m_invI * b2Cross(r, P);
 		b.m_angularVelocity += b.m_invI * (rX * PY - rY * PX);
 	}
-	public override function SolvePositionConstraints():Boolean { 
-		return true; 
+	public override function SolvePositionConstraints():Boolean {
+		return true;
 	}
 
 	public var m_localAnchor:b2Vec2 = new b2Vec2();

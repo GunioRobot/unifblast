@@ -38,7 +38,7 @@ public class b2Jacobian
 		linear2.SetV(x2); angular2 = a2;
 	}
 	public function Compute(x1:b2Vec2, a1:Number, x2:b2Vec2, a2:Number):Number{
-		
+
 		//return b2Math.b2Dot(linear1, x1) + angular1 * a1 + b2Math.b2Dot(linear2, x2) + angular2 * a2;
 		return (linear1.x*x1.x + linear1.y*x1.y) + angular1 * a1 + (linear2.x*x2.x + linear2.y*x2.y) + angular2 * a2;
 	}

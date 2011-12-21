@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+
 import Box2D.Collision.*;
 import Box2D.Common.Math.*;
 
@@ -33,7 +33,7 @@ public class b2Point
 	{
 		return p;
 	}
-	
+
 	public var p:b2Vec2 = new b2Vec2();
 };
 

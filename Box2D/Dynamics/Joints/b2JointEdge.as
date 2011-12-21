@@ -31,12 +31,12 @@ import Box2D.Dynamics.*;
 
 public class b2JointEdge
 {
-	
+
 	public var other:b2Body;		///< provides quick access to the other body attached.
 	public var joint:b2Joint;		///< the joint
 	public var prev:b2JointEdge;	///< the previous joint edge in the body's joint list
 	public var next:b2JointEdge;	///< the next joint edge in the body's joint list
-	
+
 }
 
 }

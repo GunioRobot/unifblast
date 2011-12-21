@@ -17,8 +17,8 @@
 */
 
 package Box2D.Collision{
-	
-	
+
+
 public class b2Proxy{
 	public function GetNext():uint { return lowerBounds[0]; }
 	public function SetNext(next:uint) : void { lowerBounds[0] = next & 0x0000ffff; }
@@ -29,9 +29,9 @@ public class b2Proxy{
 	public var upperBounds:Array = [uint(0), uint(0)];
 	public var overlapCount:uint;
 	public var timeStamp:uint;
-	
+
 	public var userData:* = null;
 }
-	
-	
+
+
 }

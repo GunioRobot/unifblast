@@ -1,24 +1,24 @@
 /*
 Adobe Systems Incorporated(r) Source Code License Agreement
 Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
-	
+
 Please read this Source Code License Agreement carefully before using
 the source code.
-	
+
 Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
 no-charge, royalty-free, irrevocable copyright license, to reproduce,
 prepare derivative works of, publicly display, publicly perform, and
 distribute this source code and such derivative works in source or
 object code form without any attribution requirements.
-	
+
 The name "Adobe Systems Incorporated" must not be used to endorse or promote products
 derived from the source code without prior written permission.
-	
+
 You agree to indemnify, hold harmless and defend Adobe Systems Incorporated from and
 against any loss, damage, claims or lawsuits, including attorney's
 fees that arise or result from your use or distribution of the source
 code.
-	
+
 THIS SOURCE CODE IS PROVIDED "AS IS" AND "WITH ALL FAULTS", WITHOUT
 ANY TECHNICAL SUPPORT OR ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING,
 BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -34,21 +34,21 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package com.adobe.crypto {
-	
+
 	import com.adobe.utils.IntUtil;
-	
+
 	import flash.utils.ByteArray;
-	
+
 	import mx.utils.Base64Encoder;
-	
+
 	/**
 	 * US Secure Hash Algorithm 1 (SHA1)
 	 *
-	 * Implementation based on algorithm description at 
+	 * Implementation based on algorithm description at
 	 * http://www.faqs.org/rfcs/rfc3174.html
 	 */
 	public class SHA1 {
-		
+
 		/**
 		 * Performs the SHA1 hash algorithm on a string.
 		 *
@@ -60,14 +60,14 @@ package com.adobe.crypto {
 		 */
 		public static function hash( s:String ):String {
 			var byteArray:ByteArray = hashToByteArray(s);
-			
+
 			return IntUtil.toHex( byteArray.readInt(), true )
 					+ IntUtil.toHex( byteArray.readInt(), true )
 					+ IntUtil.toHex( byteArray.readInt(), true )
 					+ IntUtil.toHex( byteArray.readInt(), true )
 					+ IntUtil.toHex( byteArray.readInt(), true );
 		}
-		
+
 		/**
 		 * Performs the SHA1 hash algorithm on a string, then does
 		 * Base64 encoding on the result.
@@ -97,7 +97,7 @@ package com.adobe.crypto {
 			encoder.encode(charsInByteArray);
 			return encoder.flush();
 		}
-		
+
 		private static function hashToByteArray( s:String ):ByteArray {
 			// initialize the h's
 			var h0:int = 0x67452301;
@@ -105,30 +105,30 @@ package com.adobe.crypto {
 			var h2:int = 0x98badcfe;
 			var h3:int = 0x10325476;
 			var h4:int = 0xc3d2e1f0;
-			
+
 			// create the blocks from the string and
 			// save the length as a local var to reduce
 			// lookup in the loop below
 			var blocks:Array = createBlocks( s );
 			var len:int = blocks.length;
-			
+
 			var w:Array = new Array( 80 );
-			
+
 			// loop over all of the blocks
 			for ( var i:int = 0; i < len; i += 16 ) {
-			
+
 				// 6.1.c
 				var a:int = h0;
 				var b:int = h1;
 				var c:int = h2;
 				var d:int = h3;
 				var e:int = h4;
-				
+
 				// 80 steps to process each block
 				// TODO: unroll for faster execution, or 4 loops of
 				// 20 each to avoid the k and f function calls
 				for ( var t:int = 0; t < 80; t++ ) {
-					
+
 					if ( t < 16 ) {
 						// 6.1.a
 						w[ t ] = blocks[ i + t ];
@@ -136,25 +136,25 @@ package com.adobe.crypto {
 						// 6.1.b
 						w[ t ] = IntUtil.rol( w[ t - 3 ] ^ w[ t - 8 ] ^ w[ t - 14 ] ^ w[ t - 16 ], 1 );
 					}
-					
+
 					// 6.1.d
 					var temp:int = IntUtil.rol( a, 5 ) + f( t, b, c, d ) + e + int( w[ t ] ) + k( t );
-					
+
 					e = d;
 					d = c;
 					c = IntUtil.rol( b, 30 );
 					b = a;
 					a = temp;
 				}
-				
+
 				// 6.1.e
 				h0 += a;
 				h1 += b;
 				h2 += c;
 				h3 += d;
-				h4 += e;		
+				h4 += e;
 			}
-			
+
 			var byteArray:ByteArray = new ByteArray();
 			byteArray.writeInt(h0);
 			byteArray.writeInt(h1);
@@ -164,7 +164,7 @@ package com.adobe.crypto {
 			byteArray.position = 0;
 			return byteArray;
 		}
-		
+
 
 		/**
 		 * Performs the logical function based on t
@@ -179,7 +179,7 @@ package com.adobe.crypto {
 			}
 			return b ^ c ^ d;
 		}
-		
+
 		/**
 		 * Determines the constant value based on t
 		 */
@@ -193,7 +193,7 @@ package com.adobe.crypto {
 			}
 			return 0xca62c1d6;
 		}
-					
+
 		/**
 		 * Converts a string to a sequence of 16-word blocks
 		 * that we'll do the processing on.  Appends padding
@@ -210,12 +210,12 @@ package com.adobe.crypto {
 			for( var i:int = 0; i < len; i += 8 ) {
 				blocks[ i >> 5 ] |= ( s.charCodeAt( i / 8 ) & mask ) << ( 24 - i % 32 );
 			}
-			
+
 			// append padding and length
 			blocks[ len >> 5 ] |= 0x80 << ( 24 - len % 32 );
 			blocks[ ( ( ( len + 64 ) >> 9 ) << 4 ) + 15 ] = len;
 			return blocks;
 		}
-		
+
 	}
 }

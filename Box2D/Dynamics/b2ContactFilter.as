@@ -37,18 +37,18 @@ public class b2ContactFilter
 	public virtual function ShouldCollide(shape1:b2Shape, shape2:b2Shape) : Boolean{
 		var filter1:b2FilterData = shape1.GetFilterData();
 		var filter2:b2FilterData = shape2.GetFilterData();
-		
+
 		if (filter1.groupIndex == filter2.groupIndex && filter1.groupIndex != 0)
 		{
 			return filter1.groupIndex > 0;
 		}
-		
+
 		var collide:Boolean = (filter1.maskBits & filter2.categoryBits) != 0 && (filter1.categoryBits & filter2.maskBits) != 0;
 		return collide;
 	}
-	
+
 	static public var b2_defaultFilter:b2ContactFilter = new b2ContactFilter();
-	
+
 };
 
 }

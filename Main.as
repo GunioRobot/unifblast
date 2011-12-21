@@ -1,4 +1,4 @@
-﻿package  
+﻿package
 {
 	import Box2D.Collision.b2AABB;
 	import Box2D.Collision.b2Bound;
@@ -21,10 +21,10 @@
 	import library.ConnectToFB;
 	import library.WorldX;
 	import library.t;
-	
+
 	/**
 	 * NOTES:
-		 * 
+		 *
 	 * @author Hill
 	 */
 	public class Main extends MovieClip
@@ -50,21 +50,21 @@
 		var holder = Asset.Movie("Holder");
 		var s1:ScrollingBg = new ScrollingBg();
 		var s2:ScrollingBg = new ScrollingBg();
-		
+
 		public function Main() {
 			super();
 			gotoAndStop(1);
 			addEventListener(Event.ENTER_FRAME, loading);
 		}
-		
+
 		public function loading(e:Event):void {
 			var total:Number = stage.loaderInfo.bytesTotal;
 			var loaded:Number = stage.loaderInfo.bytesLoaded;
 			//t.obj(LoaderTextSymbol);
 			LoaderTextSymbol.LoaderTxt.text = Math.floor((loaded / total) * 100) + "%";
-			
+
 			trace(Math.floor((loaded / total) * 100));
-			
+
 			if (total == loaded) {
 				removeEventListener(Event.ENTER_FRAME, loading);
 				gotoAndStop(2);
@@ -108,7 +108,7 @@
 			s1.x = 0;
 			s2.x = s1.width;
 		}
-		
+
 		public function addPower():void {
 			ibar.y = -7;
 			addChild(graybar);
@@ -117,8 +117,8 @@
 			powerMeter.PowerMeterStart(redbar, cannon);
 		}
 		public static function get stage():Stage { return _stage; }
-		
-		
+
+
 		private function newFrameListener(e:Event):void //***Real Time Code Method***
 		{
 			PhysicValues.world.Step(1 / 30.0, 10);
@@ -126,15 +126,15 @@
 			{
 				actor.updateNow();
 			}
-			
+
 			reallyRemoveActors();
 			for each (var mineToRemove:MineActor in _minesContacted)
 			{
 				safeRemoveActor(mineToRemove);
 			}
-			
+
 			_minesContacted = []; //Position of this deletion command could take up comp resources
-			
+
 			s1.x -= WorldX.xVelocity;
 			s2.x -= WorldX.xVelocity;
 			if(s1.x < -s1.width)
@@ -152,12 +152,12 @@
 		}
 		//Actually remove the actors that have been marked for deletion
 		//in my remove actors function
-		private function reallyRemoveActors():void 
+		private function reallyRemoveActors():void
 		{
 			for each (var removeMe:Actor in _actorsToRemove)
 			{
 				removeMe.destroy();
-				
+
 				//remove it from our main list of actors
 				var actorIndex:int = _allActors.indexOf(removeMe);
 				if (actorIndex > -1)
@@ -165,10 +165,10 @@
 					_allActors.splice(actorIndex, 1);
 				}
 			}
-			
+
 			_actorsToRemove = [];
 		}
-		
+
 		//Mark an actor to be removed later, at a same time
 		//It won't actually remove anything yet
 		public function safeRemoveActor(actorToRemove:Actor):void
@@ -178,7 +178,7 @@
 				_actorsToRemove.push(actorToRemove);
 			}
 		}
-		
+
 		private function checkReady(e:Event):void{
 			if (powerMeter.readyToLaunch==true)
 			{
@@ -186,13 +186,13 @@
 				stage.removeEventListener(MouseEvent.MOUSE_UP, checkReady);
 			}
 		}
-		
+
 		private function launchMan():void //***On clock launch a newMan object and store it in array***
 		{
 			var direction:Point = new Point(mouseX, mouseY).subtract(LAUNCH_POINT);
 			direction.normalize(powerMeter.currentPower);
 			WorldX.xVelocity = 20;
-			
+
 			var newMan:ManActor = new ManActor(this, LAUNCH_POINT, direction);
 			_allActors.push(newMan);
 			removeChild(cannon);
@@ -203,21 +203,21 @@
 			addChild(replayBtn);
 			replayBtn.addEventListener(MouseEvent.CLICK, replayGame);
 		}
-		
+
 		private function randomNumber(low:Number=0, high:Number=1):Number
 		{
 			return Math.floor(Math.random() * (1+high-low)) + low;
 		}
-		
-		private function addSomeMines():void 
+
+		private function addSomeMines():void
 		{
 			var numberOfMines:int; //Stores the number of mines to be generated
 			var newMineXValue:int; //Stores the X value of the mines to be placed
-			
+
 			//numberOfMines = randomNumber(0,5); //Generates how many mines to spawn, this could be useful later
 			//if we wanted to spawn more mines the further the character is launched
 			numberOfMines = 5;
-			
+
 			for (var i:int; i<numberOfMines; i++)
 			{
 				newMineXValue = randomNumber(720,1440);
@@ -226,7 +226,7 @@
 				_allActors.push(newMine);
 			}
 		}
-		
+
 		private function handleMineContact(e:MineEvent):void //!!!!!Maybe we could insert physics code here for mines rather than use bouncyness!!!!!
 		{
 			//Record the fact that the mine has been hit, to remove it laters
@@ -237,49 +237,49 @@
 				_minesContacted.push(mineActor);
 			}
 			WorldX.xVelocity += 5;
-			
+
 		}
 		private function setupPhysicsWorld():void //***Creates Physics World values and then creates the World***
 		{
 			var worldBounds:b2AABB = new b2AABB();
 			worldBounds.lowerBound.Set( -5000 / PhysicValues.RATIO, -5000 / PhysicValues.RATIO);
 			worldBounds.upperBound.Set(5000 / PhysicValues.RATIO, 5000 / PhysicValues.RATIO);
-			
+
 			var gravity:b2Vec2 = new b2Vec2(0, 9.8);
 			var allowSleep:Boolean = true;
-			
+
 			PhysicValues.world = new b2World(worldBounds, gravity, allowSleep); //Passes created variables to PhysicValues.as
 			PhysicValues.world.SetContactListener(new CannonBlastContactListener()); //Sets contact listener to our contact listener
-			
+
 			//***Create Floor*** - When floor is hit it returns null as it isnt part of the Actor class!!!!
 			var floorShapeDef:b2PolygonDef = new b2PolygonDef(); //***Define floor shape Values***
 			floorShapeDef.SetAsBox(1000 / PhysicValues.RATIO, 5 / PhysicValues.RATIO);
 			floorShapeDef.friction = 0.1;
 			floorShapeDef.restitution = 0.2;
 			floorShapeDef.density = 0.0;
-			
+
 			var floorBodyDef:b2BodyDef = new b2BodyDef();//***Creates Body and Sets Position***
 			floorBodyDef.position.Set(1000 / PhysicValues.RATIO, 600 / PhysicValues.RATIO)
-			
+
 			_worldFloor = PhysicValues.world.CreateBody(floorBodyDef);//Passes to PhysicValues
 			_worldFloor.CreateShape(floorShapeDef);
 			_worldFloor.SetMassFromShapes();
-			
+
 			//***Create Back Wall*** This wall keeps the man from leaving the screen to the left
 /*			var backWallShapeDef:b2PolygonDef = new b2PolygonDef(); //***Define floor shape Values***
 			backWallShapeDef.SetAsBox(5 / PhysicValues.RATIO, 750 / PhysicValues.RATIO);
 			backWallShapeDef.friction = 0.1;
 			backWallShapeDef.restitution = 0.2;
 			backWallShapeDef.density = 0.0;
-			
+
 			var backWallBodyDef:b2BodyDef = new b2BodyDef();//***Creates Body and Sets Position***
 			backWallBodyDef.position.Set(0 / PhysicValues.RATIO, 0 / PhysicValues.RATIO)
-			
+
 			_backWall = PhysicValues.world.CreateBody(backWallBodyDef);//Passes to PhysicValues
 			_backWall.CreateShape(backWallShapeDef);
 			_backWall.SetMassFromShapes();*/
 		}
-		
+
 	}
 
 }

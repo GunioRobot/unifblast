@@ -18,10 +18,10 @@
 
 package Box2D.Common.Math{
 
-	
+
 import Box2D.Common.*;
-	
-	
+
+
 /// This describes the motion of a body/shape for TOI computation.
 /// Shapes are defined with respect to the body origin, which may
 /// no coincide with the center of mass. However, to support dynamics
@@ -31,7 +31,7 @@ public class b2Sweep
 	/// Get the interpolated transform at a specific time.
 	/// @param t the normalized time in [0,1].
 	public function GetXForm(xf:b2XForm, t:Number) : void{
-		
+
 		// center = p + R * localCenter
 		if (1.0 - t0 > Number.MIN_VALUE)
 		{
@@ -46,13 +46,13 @@ public class b2Sweep
 			xf.position.SetV(c);
 			xf.R.Set(a);
 		}
-		
+
 		// Shift to origin
 		//xf->position -= b2Mul(xf->R, localCenter);
 		var tMat:b2Mat22 = xf.R;
 		xf.position.x -= (tMat.col1.x * localCenter.x + tMat.col2.x * localCenter.y);
 		xf.position.y -= (tMat.col1.y * localCenter.x + tMat.col2.y * localCenter.y);
-		
+
 	}
 
 	/// Advance the sweep forward, yielding a new initial state.

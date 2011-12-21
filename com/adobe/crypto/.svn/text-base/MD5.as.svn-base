@@ -1,24 +1,24 @@
 /*
 Adobe Systems Incorporated(r) Source Code License Agreement
 Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
-	
+
 Please read this Source Code License Agreement carefully before using
 the source code.
-	
+
 Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
 no-charge, royalty-free, irrevocable copyright license, to reproduce,
 prepare derivative works of, publicly display, publicly perform, and
 distribute this source code and such derivative works in source or
 object code form without any attribution requirements.
-	
+
 The name "Adobe Systems Incorporated" must not be used to endorse or promote products
 derived from the source code without prior written permission.
-	
+
 You agree to indemnify, hold harmless and defend Adobe Systems Incorporated from and
 against any loss, damage, claims or lawsuits, including attorney's
 fees that arise or result from your use or distribution of the source
 code.
-	
+
 THIS SOURCE CODE IS PROVIDED "AS IS" AND "WITH ALL FAULTS", WITHOUT
 ANY TECHNICAL SUPPORT OR ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING,
 BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -34,17 +34,17 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package com.adobe.crypto {
-	
+
 	import com.adobe.utils.IntUtil;
-	
+
 	/**
 	 * The MD5 Message-Digest Algorithm
 	 *
-	 * Implementation based on algorithm description at 
+	 * Implementation based on algorithm description at
 	 * http://www.faqs.org/rfcs/rfc1321.html
 	 */
 	public class MD5 {
-		
+
 		/**
 		 * Performs the MD5 hash algorithm on a string.
 		 *
@@ -60,27 +60,27 @@ package com.adobe.crypto {
 			var b:int = -271733879;
 			var c:int = -1732584194;
 			var d:int = 271733878;
-			
+
 			// variables to store previous values
 			var aa:int;
 			var bb:int;
 			var cc:int;
 			var dd:int;
-			
+
 			// create the blocks from the string and
 			// save the length as a local var to reduce
 			// lookup in the loop below
 			var x:Array = createBlocks( s );
 			var len:int = x.length;
-			
+
 			// loop over all of the blocks
 			for ( var i:int = 0; i < len; i += 16) {
 				// save previous values
 				aa = a;
 				bb = b;
 				cc = c;
-				dd = d;				
-				
+				dd = d;
+
 				// Round 1
 				a = ff( a, b, c, d, x[i+ 0],  7, -680876936 ); 	// 1
 				d = ff( d, a, b, c, x[i+ 1], 12, -389564586 );	// 2
@@ -98,7 +98,7 @@ package com.adobe.crypto {
 				d = ff( d, a, b, c, x[i+13], 12, -40341101 ); 	// 14
 				c = ff( c, d, a, b, x[i+14], 17, -1502002290 );	// 15
 				b = ff( b, c, d, a, x[i+15], 22, 1236535329 ); 	// 16
-				
+
 				// Round 2
 				a = gg( a, b, c, d, x[i+ 1],  5, -165796510 ); 	// 17
 				d = gg( d, a, b, c, x[i+ 6],  9, -1069501632 );	// 18
@@ -116,7 +116,7 @@ package com.adobe.crypto {
 				d = gg( d, a, b, c, x[i+ 2],  9, -51403784 ); 	// 30
 				c = gg( c, d, a, b, x[i+ 7], 14, 1735328473 ); 	// 31
 				b = gg( b, c, d, a, x[i+12], 20, -1926607734 );	// 32
-				
+
 				// Round 3
 				a = hh( a, b, c, d, x[i+ 5],  4, -378558 ); 	// 33
 				d = hh( d, a, b, c, x[i+ 8], 11, -2022574463 );	// 34
@@ -134,7 +134,7 @@ package com.adobe.crypto {
 				d = hh( d, a, b, c, x[i+12], 11, -421815835 ); 	// 46
 				c = hh( c, d, a, b, x[i+15], 16, 530742520 ); 	// 47
 				b = hh( b, c, d, a, x[i+ 2], 23, -995338651 ); 	// 48
-				
+
 				// Round 4
 				a = ii( a, b, c, d, x[i+ 0],  6, -198630844 ); 	// 49
 				d = ii( d, a, b, c, x[i+ 7], 10, 1126891415 ); 	// 50
@@ -162,35 +162,35 @@ package com.adobe.crypto {
 			// Finish up by concatening the buffers with their hex output
 			return IntUtil.toHex( a ) + IntUtil.toHex( b ) + IntUtil.toHex( c ) + IntUtil.toHex( d );
 		}
-		
+
 		/**
 		 * Auxiliary function f as defined in RFC
 		 */
 		private static function f( x:int, y:int, z:int ):int {
 			return ( x & y ) | ( (~x) & z );
 		}
-		
+
 		/**
 		 * Auxiliary function g as defined in RFC
 		 */
 		private static function g( x:int, y:int, z:int ):int {
 			return ( x & z ) | ( y & (~z) );
 		}
-		
+
 		/**
 		 * Auxiliary function h as defined in RFC
 		 */
 		private static function h( x:int, y:int, z:int ):int {
 			return x ^ y ^ z;
 		}
-		
+
 		/**
 		 * Auxiliary function i as defined in RFC
 		 */
 		private static function i( x:int, y:int, z:int ):int {
 			return y ^ ( x | (~z) );
 		}
-		
+
 		/**
 		 * A generic transformation function.  The logic of ff, gg, hh, and
 		 * ii are all the same, minus the function used, so pull that logic
@@ -200,35 +200,35 @@ package com.adobe.crypto {
 			var tmp:int = a + int( func( b, c, d ) ) + x + t;
 			return IntUtil.rol( tmp, s ) +  b;
 		}
-		
+
 		/**
 		 * ff transformation function
 		 */
 		private static function ff ( a:int, b:int, c:int, d:int, x:int, s:int, t:int ):int {
 			return transform( f, a, b, c, d, x, s, t );
 		}
-		
+
 		/**
 		 * gg transformation function
 		 */
 		private static function gg ( a:int, b:int, c:int, d:int, x:int, s:int, t:int ):int {
 			return transform( g, a, b, c, d, x, s, t );
 		}
-		
+
 		/**
 		 * hh transformation function
 		 */
 		private static function hh ( a:int, b:int, c:int, d:int, x:int, s:int, t:int ):int {
 			return transform( h, a, b, c, d, x, s, t );
 		}
-		
+
 		/**
 		 * ii transformation function
 		 */
 		private static function ii ( a:int, b:int, c:int, d:int, x:int, s:int, t:int ):int {
 			return transform( i, a, b, c, d, x, s, t );
 		}
-		
+
 		/**
 		 * Converts a string to a sequence of 16-word blocks
 		 * that we'll do the processing on.  Appends padding
@@ -245,12 +245,12 @@ package com.adobe.crypto {
 			for( var i:int = 0; i < len; i += 8 ) {
 				blocks[ i >> 5 ] |= ( s.charCodeAt( i / 8 ) & mask ) << ( i % 32 );
 			}
-			
+
 			// append padding and length
 			blocks[ len >> 5 ] |= 0x80 << ( len % 32 );
 			blocks[ ( ( ( len + 64 ) >>> 9 ) << 4 ) + 14 ] = len;
 			return blocks;
 		}
-		
+
 	}
 }

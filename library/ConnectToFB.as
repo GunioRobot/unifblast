@@ -7,7 +7,7 @@ package library {
 	public class ConnectToFB {
 		public var lastRequest:Object;
 		public function ConnectToFB():void {
-			
+
 		}
 		public function sendRequest(url:String) {
 			var myLoader:URLLoader = new URLLoader();
@@ -19,7 +19,7 @@ package library {
 			myLoader.addEventListener(Event.COMPLETE, onDataLoad);
 			sendPost();
 		}
-		
+
 		public function sendPost(/*url:String, vars:Array*/) {
 			var post:Array = new Array();
 			post['user'] = 'bob';
@@ -29,7 +29,7 @@ package library {
 			request.data = requestVars;
 			request.method = URLRequestMethod.POST;*/
 		}
-		
+
 		public function onDataLoad(evt:Event) {
 			trace('Load: completed');
 			lastRequest = JSON.decode(evt.target.data);
@@ -51,5 +51,5 @@ package library {
 			trace("SecurityError: " + evt.text);
 		}
 	}
-	
+
 }

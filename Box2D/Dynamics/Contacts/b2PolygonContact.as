@@ -49,36 +49,36 @@ public class b2PolygonContact extends b2Contact
 	// store temp manifold to reduce calls to new
 	private var m0:b2Manifold = new b2Manifold();
 	static private const s_evalCP:b2ContactPoint = new b2ContactPoint();
-	
+
 	public override function Evaluate(listener:b2ContactListener): void{
 		var v1:b2Vec2;
 		var v2:b2Vec2;
 		var mp0:b2ManifoldPoint;
-		
+
 		var b1:b2Body = m_shape1.m_body;
 		var b2:b2Body = m_shape2.m_body;
-		
+
 		var cp:b2ContactPoint;
 		var i:int;
-		
+
 		//b2Manifold m0;
 		//memcpy(&m0, &m_manifold, sizeof(b2Manifold));
 		// TODO: make sure this is completely necessary
 		m0.Set(m_manifold);
-		
+
 		b2Collision.b2CollidePolygons(m_manifold, m_shape1 as b2PolygonShape, b1.m_xf, m_shape2 as b2PolygonShape, b2.m_xf);
 		var persisted:Array = [false, false];
-		
+
 		cp = s_evalCP;
 		cp.shape1 = m_shape1;
 		cp.shape2 = m_shape2;
 		cp.friction = m_friction;
 		cp.restitution = m_restitution;
-		
+
 		// Match contact ids to facilitate warm starting.
 		if (m_manifold.pointCount > 0)
 		{
-			
+
 			// Match old contact ids to new contact ids and copy the
 			// stored impulses to warm start the solver.
 			for (i = 0; i < m_manifold.pointCount; ++i)
@@ -88,25 +88,25 @@ public class b2PolygonContact extends b2Contact
 				mp.tangentImpulse = 0.0;
 				var found:Boolean = false;
 				var idKey:uint = mp.id._key;
-				
+
 				for (var j:int = 0; j < m0.pointCount; ++j)
 				{
 					if (persisted[j] == true)
 					{
 						continue;
 					}
-					
+
 					mp0 = m0.points[ j ];
-					
+
 					if (mp0.id._key == idKey)
 					{
 						persisted[j] = true;
 						mp.normalImpulse = mp0.normalImpulse;
 						mp.tangentImpulse = mp0.tangentImpulse;
-	
+
 						// A persistent point.
 						found = true;
-	
+
 						// Report persistent point.
 						if (listener != null)
 						{
@@ -122,7 +122,7 @@ public class b2PolygonContact extends b2Contact
 						break;
 					}
 				}
-				
+
 				// Report added point.
 				if (found == false && listener != null)
 				{
@@ -136,19 +136,19 @@ public class b2PolygonContact extends b2Contact
 					listener.Add(cp);
 				}
 			}
-			
+
 			m_manifoldCount = 1;
 		}
 		else
 		{
 			m_manifoldCount = 0;
 		}
-		
+
 		if (listener == null)
 		{
 			return;
 		}
-		
+
 		// Report removed points.
 		for (i = 0; i < m0.pointCount; ++i)
 		{
@@ -156,7 +156,7 @@ public class b2PolygonContact extends b2Contact
 			{
 				continue;
 			}
-	
+
 			mp0 = m0.points[ i ];
 			cp.position = b1.GetWorldPoint(mp0.localPoint1);
 			v1 = b1.GetLinearVelocityFromLocalPoint(mp0.localPoint1);
@@ -168,7 +168,7 @@ public class b2PolygonContact extends b2Contact
 			listener.Remove(cp);
 		}
 	}
-	
+
 	public override function GetManifolds():Array
 	{
 		return m_manifolds;

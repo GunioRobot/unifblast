@@ -1,24 +1,24 @@
 /*
 Adobe Systems Incorporated(r) Source Code License Agreement
 Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
-	
+
 Please read this Source Code License Agreement carefully before using
 the source code.
-	
+
 Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive,
 no-charge, royalty-free, irrevocable copyright license, to reproduce,
 prepare derivative works of, publicly display, publicly perform, and
 distribute this source code and such derivative works in source or
 object code form without any attribution requirements.
-	
+
 The name "Adobe Systems Incorporated" must not be used to endorse or promote products
 derived from the source code without prior written permission.
-	
+
 You agree to indemnify, hold harmless and defend Adobe Systems Incorporated from and
 against any loss, damage, claims or lawsuits, including attorney's
 fees that arise or result from your use or distribution of the source
 code.
-	
+
 THIS SOURCE CODE IS PROVIDED "AS IS" AND "WITH ALL FAULTS", WITHOUT
 ANY TECHNICAL SUPPORT OR ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING,
 BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -37,11 +37,11 @@ package com.adobe.crypto
 {
 	import mx.formatters.DateFormatter;
 	import mx.utils.Base64Encoder;
-	
+
 	/**
 	 * Web Services Security Username Token
 	 *
-	 * Implementation based on algorithm description at 
+	 * Implementation based on algorithm description at
 	 * http://www.oasis-open.org/committees/wss/documents/WSS-Username-02-0223-merged.pdf
 	 */
 	public class WSSEUsernameToken
@@ -67,13 +67,13 @@ package com.adobe.crypto
 				nonce = generateNonce();
 			}
 			nonce = base64Encode(nonce);
-		
+
 			var created:String = generateTimestamp(timestamp);
-		
+
 			var password64:String = getBase64Digest(nonce,
 				created,
 				password);
-		
+
 			var token:String = new String("UsernameToken Username=\"");
 			token += username + "\", " +
 					 "PasswordDigest=\"" + password64 + "\", " +
@@ -81,7 +81,7 @@ package com.adobe.crypto
 					 "Created=\"" + created + "\"";
 			return token;
 		}
-		
+
 		private static function generateNonce():String
 		{
 			// Math.random returns a Number between 0 and 1.  We don't want our
@@ -90,14 +90,14 @@ package com.adobe.crypto
 			var s:String =  Math.random().toString();
 			return s.replace(".", "");
 		}
-		
+
 		private static function base64Encode(s:String):String
 		{
 			var encoder:Base64Encoder = new Base64Encoder();
 			encoder.encode(s);
 			return encoder.flush();
 		}
-		
+
 		private static function generateTimestamp(timestamp:Date):String
 		{
 			if (timestamp == null)
@@ -108,7 +108,7 @@ package com.adobe.crypto
 			dateFormatter.formatString = "YYYY-MM-DDTJJ:NN:SS"
 			return dateFormatter.format(timestamp) + "Z";
 		}
-		
+
 		private static function getBase64Digest(nonce:String, created:String, password:String):String
 		{
 			return SHA1.hashToBase64(nonce + created + password);

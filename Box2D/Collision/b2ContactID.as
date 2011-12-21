@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+
 import Box2D.Collision.Features;
 
 // We use contact ids to facilitate warm starting.
@@ -25,7 +25,7 @@ public class b2ContactID
 {
 	public function b2ContactID(){
 		features._m_id = this;
-		
+
 	}
 	public function Set(id:b2ContactID) : void{
 		key = id._key;

@@ -17,8 +17,8 @@
 */
 
 package Box2D.Collision{
-	
-	
+
+
 public class b2Bound{
 	public function IsLower():Boolean { return (value & 1) == 0; }
 	public function IsUpper():Boolean { return (value & 1) == 1; }
@@ -26,11 +26,11 @@ public class b2Bound{
 		var tempValue:uint = value;
 		var tempProxyId:uint = proxyId;
 		var tempStabbingCount:uint = stabbingCount;
-		
+
 		value = b.value;
 		proxyId = b.proxyId;
 		stabbingCount = b.stabbingCount;
-		
+
 		b.value = tempValue;
 		b.proxyId = tempProxyId;
 		b.stabbingCount = tempStabbingCount;
@@ -40,6 +40,6 @@ public class b2Bound{
 	public var proxyId:uint;
 	public var stabbingCount:uint;
 }
-	
-	
+
+
 }
